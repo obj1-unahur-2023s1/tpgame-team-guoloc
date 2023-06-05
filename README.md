@@ -2,9 +2,11 @@
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- Javier Asato
+- Vanina Olson
+- Franco Orellana
+- Pablo Israelsky
+- Ignacio Rzeszut
 
 ## Capturas
 
