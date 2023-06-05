@@ -1,4 +1,4 @@
-# Nombre del juego (<- borrar y completar)
+# Guoloc Vs Zombies
 
 ## Equipo de desarrollo
 
