@@ -38,11 +38,10 @@ class GestorAnimacionGuisante{
 	}
 	
 	method cambiarFrame(){
-		if(frameActual == 1){
-			frameActual = 0
-		}
-		else frameActual = 1
+		frameActual = self.frameOpuesto()
 	}
+	
+	method frameOpuesto() = if(frameActual==0) 1 else 0
 	
 	method image() = "imgPlantas/guisante_f" + frameActual.toString() + ".png"
 }
