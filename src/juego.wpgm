@@ -2,12 +2,14 @@ import wollok.game.*
 import cabezal.*
 import plantas.*
 import configuracion.*
+import logoPlanta.*
 
 program guolocVsZombies {
+	
 	configuracion.configurarPantalla()
 	configuracion.agregarVisuales()
 	configuracion.agregarTareas()
-	(1..5).forEach { x => game.addVisualIn(new Guisante(), game.at(x, 5)) }
+	configuracion.agregarLogosPlantas()//Solo es para probar
 	
 	game.start()
 }
