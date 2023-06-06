@@ -22,7 +22,26 @@ class PapaMina inherits Planta{
 }
 
 class Guisante inherits Planta{
-	const property image = "imgPlantas/guisante_f0.png"
+	var property imagenActual = new GestorAnimacionGuisante()
+
+	method image() = imagenActual.image()
 	
 	method nuevaPlanta() = new Guisante()
+}
+
+class GestorAnimacionGuisante{
+	
+	var frameActual = 0
+	
+	method initialize(){
+		game.onTick(200, "animacionGuisante", {self.cambiarFrame()})
+	}
+	
+	method cambiarFrame(){
+		frameActual = self.frameOpuesto()
+	}
+	
+	method frameOpuesto() = if(frameActual==0) 1 else 0
+	
+	method image() = "imgPlantas/guisante_f" + frameActual.toString() + ".png"
 }
