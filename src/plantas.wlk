@@ -1,32 +1,42 @@
 import wollok.game.*
 
+object ningunaPlanta{
+	method nuevaPlanta(){}
+	method imagenCabezal() = "cabezal.png"
+}
+
 class Planta{
 	var property costoSoles = 0
 	var property salud = 50
 }
 
 class Girasol inherits Planta{
-	var property image = "imgPlantas/girasol_f1.png"
-	var property frame = 0
-	
+	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/girasol_f")
+	method image() = imagenActual.image()
 	method nuevaPlanta() = new Girasol()
-	
-	
+	method imagenCabezal() = "imgPlantas/cabezal_girasol.png"
 
 }
 
 class PapaMina inherits Planta{
-	const property image = "imgPlantas/papa_f0.png"
-	
+	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/papa_f")
+	method image() = imagenActual.image()
 	method nuevaPlanta() = new PapaMina()
+	method imagenCabezal() = "imgPlantas/cabezal_papa.png"
 }
 
 class Guisante inherits Planta{
-	var property imagenActual = new GestorAnimacionGuisante()
-
+	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/guisante_f")
 	method image() = imagenActual.image()
-	
 	method nuevaPlanta() = new Guisante()
+	method imagenCabezal() = "imgPlantas/cabezal_guisante.png"
+}
+
+class Nuez inherits Planta{
+	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/nuez_f")
+	method image() = imagenActual.image()
+	method nuevaPlanta() = new Guisante()
+	method imagenCabezal() = "imgPlantas/cabezal_nuez.png"
 }
 
 class GestorAnimacionGuisante{
@@ -44,4 +54,17 @@ class GestorAnimacionGuisante{
 	method frameOpuesto() = if(frameActual==0) 1 else 0
 	
 	method image() = "imgPlantas/guisante_f" + frameActual.toString() + ".png"
+}
+
+class GestorAnimacion{
+	var frameActual = 0
+	const imagenBase
+	
+	method initialize(){
+		game.onTick(200, "animacionIdle", {self.cambiarFrame()})
+	}
+
+	method cambiarFrame(){frameActual = self.frameOpuesto()}
+	method frameOpuesto() = if(frameActual==0) 1 else 0
+	method image() = imagenBase + frameActual.toString() + ".png"
 }
