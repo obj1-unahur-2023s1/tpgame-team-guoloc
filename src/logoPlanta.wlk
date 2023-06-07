@@ -13,3 +13,8 @@ object logoSol{
 	var property image = "otros/logo_sol.png"
 	var property position = game.at(0,7)
 }
+
+object cantidadSoles{
+	var property image = "otros/prueba_cantidadSoles.png"
+	var property position = game.at(0,7)
+}

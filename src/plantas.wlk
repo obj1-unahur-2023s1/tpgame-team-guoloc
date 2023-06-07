@@ -5,6 +5,11 @@ object ningunaPlanta{
 	method imagenCabezal() = "cabezal.png"
 }
 
+object pala{
+	method nuevaPlanta(){}
+	method imagenCabezal() = "imgPlantas/cabezal_pala.png"
+}
+
 class Planta{
 	var property costoSoles = 0
 	var property salud = 50
@@ -32,11 +37,26 @@ class Guisante inherits Planta{
 	method imagenCabezal() = "imgPlantas/cabezal_guisante.png"
 }
 
+class GuisanteDoble inherits Planta{
+	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/guisanteDoble_f")
+	method image() = imagenActual.image()
+	method nuevaPlanta() = new GuisanteDoble()
+	method imagenCabezal() = "imgPlantas/cabezal_guisanteDoble.png"
+}
+
 class Nuez inherits Planta{
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/nuez_f")
 	method image() = imagenActual.image()
 	method nuevaPlanta() = new Guisante()
 	method imagenCabezal() = "imgPlantas/cabezal_nuez.png"
+}
+
+class Espinas inherits Planta{
+	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/espinas_f")
+	method image() = imagenActual.image()
+	method nuevaPlanta() = new Girasol()
+	method imagenCabezal() = "imgPlantas/cabezal_espinas.png"
+
 }
 
 class GestorAnimacionGuisante{

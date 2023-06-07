@@ -14,7 +14,10 @@ object cabezal {
 		keyboard.num2().onPressDo{self.cambiarPlanta(new Guisante())}
 		keyboard.num3().onPressDo{self.cambiarPlanta(new PapaMina())}
 		keyboard.num4().onPressDo{self.cambiarPlanta(new Nuez())}
-		keyboard.a().onPressDo{self.plantar()}
+		keyboard.num5().onPressDo{self.cambiarPlanta(new GuisanteDoble())}
+		keyboard.num6().onPressDo{self.cambiarPlanta(new Espinas())}
+		keyboard.num7().onPressDo{self.cambiarPlanta(pala)}
+		keyboard.a().onPressDo{if (self.laPlantaSeleccionadaEsValida())self.plantar()}
 		keyboard.d().onPressDo{self.desplantar()}
 	}
 	
@@ -29,7 +32,6 @@ object cabezal {
 		//Plantar una planta si se puede, sino no hace nada
 		if(self.sePuedePlantarEn(self.position())){
 			game.addVisualIn(self.planta(), self.position());
-			//self.planta(self.planta().nuevaPlanta())
 			self.cambiarPlanta(ningunaPlanta)
 		}
 	}
@@ -43,6 +45,7 @@ object cabezal {
 	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) and planta!=ningunaPlanta
 	method laCeldaEstaVacia() = game.colliders(self).size()<1
 	method laPosicionEsValida(posicion) = posicion.y()!=7 and posicion.y()!=0  and posicion.x()>0
+	method laPlantaSeleccionadaEsValida() = planta!=pala and planta!=ningunaPlanta
 	
 
 	
