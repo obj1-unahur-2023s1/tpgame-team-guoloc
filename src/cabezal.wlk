@@ -1,5 +1,6 @@
 import wollok.game.*
 import plantas.*
+import logoPlanta.*
 
 object cabezal {
 	//Selector de celdas para poner/sacar las plantas y realizar otras acciones
@@ -19,6 +20,8 @@ object cabezal {
 		keyboard.num7().onPressDo{self.cambiarPlanta(pala)}
 		keyboard.a().onPressDo{if (self.laPlantaSeleccionadaEsValida())self.plantar()}
 		keyboard.d().onPressDo{self.desplantar()}
+		keyboard.z().onPressDo{indicadorSoles.aumentarSoles(11)} //Para probar como se ven los numeros de la cantidad de soles
+		keyboard.x().onPressDo{indicadorSoles.sacarSoles(10)}
 	}
 	
 	

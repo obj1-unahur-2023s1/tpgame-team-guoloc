@@ -9,12 +9,57 @@ class LogoPlanta {
 	
 }
 
-object logoSol{
+
+object indicadorSoles{
 	var property image = "otros/logo_sol.png"
+	var property cantidadSoles = 111
 	var property position = game.at(0,7)
+	method refrescarNumeros(){
+		centenasCantidadSoles.refrescarNumero()
+		decenasCantidadSoles.refrescarNumero()
+		unidadesCantidadSoles.refrescarNumero()
+	}
+	
+	method aumentarSoles(cantidad){
+		if ((cantidadSoles+cantidad)>999)
+			cantidadSoles = 999
+		else
+			cantidadSoles+=cantidad
+		self.refrescarNumeros()
+	}		
+	method sacarSoles(cantidad){
+		if ((cantidadSoles-cantidad)<0)
+			cantidadSoles = 0
+		else
+			cantidadSoles-=cantidad
+		self.refrescarNumeros()
+	}	
+	method centenas() = (cantidadSoles/100).truncate(0) 	//Describe la cantidad de centeas de la cantidad de soles - Numero
+	method decenas() = ((cantidadSoles - self.centenas()*100)/10).truncate(0)		//Describe la cantidad de decenas de la cantidad de soles - Numero
+	method unidades() = (cantidadSoles - (self.centenas()*100) - (self.decenas()*10))		//Describe la cantidad de unidades de la cantidad de soles - Numero
+	
 }
 
-object cantidadSoles{
-	var property image = "otros/prueba_cantidadSoles.png"
+object centenasCantidadSoles{
 	var property position = game.at(0,7)
+	var property image = "otros/numeros/centenas_"+indicadorSoles.centenas().toString()+".png"
+	method refrescarNumero(){
+		self.image("otros/numeros/centenas_"+indicadorSoles.centenas().toString()+".png")
+	}
+}
+
+object decenasCantidadSoles{
+	var property position = game.at(0,7)
+	var property image = "otros/numeros/decenas_"+indicadorSoles.decenas().toString()+".png"
+	method refrescarNumero(){
+		self.image("otros/numeros/decenas_"+indicadorSoles.decenas().toString()+".png")
+	}
+}
+
+object unidadesCantidadSoles{
+	var property position = game.at(0,7)
+	var property image = "otros/numeros/unidad_"+indicadorSoles.unidades().toString()+".png"
+	method refrescarNumero(){
+		self.image("otros/numeros/unidad_"+indicadorSoles.unidades().toString()+".png")
+	}
 }
