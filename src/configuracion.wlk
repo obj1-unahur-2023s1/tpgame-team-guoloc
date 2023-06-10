@@ -5,7 +5,7 @@ import logoPlanta.*
 object configuracion{
 	//Realizar las acciones de configuracion del juego
 	
-	method configurarPantalla(){
+	method configurarResolucionPantalla(){
 		//Configurar la resolucion del juego y el tamaño de las celdas
 		//Resolucion del juego: 1280x512
 		game.width(18)

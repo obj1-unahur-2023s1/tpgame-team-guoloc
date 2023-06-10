@@ -1,15 +1,14 @@
 import wollok.game.*
-import cabezal.*
-import plantas.*
 import configuracion.*
-import logoPlanta.*
+import administradorDeNivel.*
+
 
 program guolocVsZombies {
 	
-	configuracion.configurarPantalla()
-	configuracion.agregarVisuales()
-	configuracion.agregarTareas()
-	configuracion.agregarLogosPlantas()//Solo es para probar
+	
+	configuracion.configurarResolucionPantalla()
+	administradorDeNivel.configurarInputs()
+	administradorDeNivel.cargarNivelPantallaJuego()
 	
 	game.start()
 }
