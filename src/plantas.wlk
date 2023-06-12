@@ -40,6 +40,9 @@ class Planta{
 	var property position
 	var property costoSoles = 0
 	var property salud = 50
+	method serDesplantado(){
+		game.removeVisual(self)
+	}
 	method accionCabezal(){
 		cabezal.plantar()
 	}

@@ -14,8 +14,7 @@ object cabezal {
 	
 	method configurarTareas(){
 		//Añadir los eventos de teclado
-		keyboard.a().onPressDo{if (self.laPlantaSeleccionadaEsValida())self.plantar()}
-		keyboard.d().onPressDo{self.desplantar()}
+		keyboard.a().onPressDo{self.plantarODesplantar()}
 		keyboard.space().onPressDo{planta.accionCabezal()}
 		keyboard.z().onPressDo{indicadorSoles.aumentarSoles(11)} //Para probar como se ven los numeros de la cantidad de soles
 		keyboard.x().onPressDo{indicadorSoles.sacarSoles(10)}
@@ -30,7 +29,12 @@ object cabezal {
 		planta = nuevaPlanta
 		image = planta.imagenCabezal()
 	}
-	
+	method plantarODesplantar(){
+		if(planta == pala)
+			self.desplantar()
+		else if(self.laPlantaSeleccionadaEsValida())
+			self.plantar()
+	}
 	method plantar(){
 		//Plantar una planta si se puede, sino no hace nada
 		if(self.sePuedePlantarEn(self.position())){
@@ -48,9 +52,9 @@ object cabezal {
 	
 	method desplantar(){
 		//Desplantar los TODOS los objetos de la posicion actual
-		game.colliders(self).forEach({o => game.removeVisual(o)})
+		self.position().allElements().forEach{e=>e.serDesplantado()}
 	}
-	
+	method serDesplantado(){}
 	
 	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) and planta!=ningunaPlanta
 	method laCeldaEstaVacia() = game.colliders(self).size()<1
