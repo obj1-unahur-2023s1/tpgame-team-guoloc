@@ -6,7 +6,7 @@ object ningunaPlanta{
 }
 
 object pala{
-	method nuevaPlanta(){}
+	method nuevaPlanta() = self
 	method imagenCabezal() = "imgPlantas/cabezal_pala.png"
 }
 
@@ -47,7 +47,7 @@ class GuisanteDoble inherits Planta{
 class Nuez inherits Planta{
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/nuez_f")
 	method image() = imagenActual.image()
-	method nuevaPlanta() = new Guisante()
+	method nuevaPlanta() = new Nuez()
 	method imagenCabezal() = "imgPlantas/cabezal_nuez.png"
 }
 

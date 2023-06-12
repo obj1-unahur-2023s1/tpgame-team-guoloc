@@ -20,6 +20,7 @@ object administradorDeNivel {
 		//Cargar los visuals y fondo de la pantalla de juego (donde plantamos)
 		game.boardGround("fondo.png")
 		game.addVisualCharacter(cabezal)
+		game.addVisual(cabezalDeSeleccion)
 		configuracion.agregarTareas()
 		configuracion.agregarLogosPlantas()
 		indiceNivelActual = 1

@@ -22,6 +22,8 @@ object cabezal {
 		keyboard.d().onPressDo{self.desplantar()}
 		keyboard.z().onPressDo{indicadorSoles.aumentarSoles(11)} //Para probar como se ven los numeros de la cantidad de soles
 		keyboard.x().onPressDo{indicadorSoles.sacarSoles(10)}
+		keyboard.w().onPressDo{cabezalDeSeleccion.moverIzquierda()}
+		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
 	}
 	
 	
@@ -52,5 +54,44 @@ object cabezal {
 	
 
 	
-	// Pegar acá todo lo que tenían de Toni en la etapa 1
+	
+}
+
+object cabezalDeSeleccion{
+	var property position = game.at(1, 7)
+	
+	method image() = "cabezal.png"
+	
+	method cambiarObjetoCabezal(){
+		cabezal.cambiarPlanta(administradorDeCabezal.objetoCabezal(position.x()-1))
+	}
+	
+	method moverIzquierda(){
+		if(position.x() == 7){
+			position = game.at(1,7)
+		}
+		else{
+			position = game.at(position.x()+1,7)
+		}
+			
+		self.cambiarObjetoCabezal()
+	}
+	
+	method moverDerecha(){
+		if(position.x() == 1){
+			position = game.at(7,7)
+		}
+		else{
+			position = game.at(position.x()-1,7)
+		}
+		
+		self.cambiarObjetoCabezal()
+	}
+	
+}
+
+object administradorDeCabezal{
+	const objetosParaCabezal= [new Girasol(), new Guisante(), new PapaMina(), new Nuez(),new GuisanteDoble(),new Espinas(), pala ]
+	method objetoCabezal(indice) = objetosParaCabezal.get(indice).nuevaPlanta()
+	
 }

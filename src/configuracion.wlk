@@ -18,6 +18,7 @@ object configuracion{
 		//Agregar los visuales iniciales al juego
 		game.boardGround("fondo.png")
 		game.addVisualCharacter(cabezal)
+		game.addVisual(cabezalDeSeleccion)
 	}
 	
 	method agregarTareas(){
