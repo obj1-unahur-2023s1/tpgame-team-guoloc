@@ -19,8 +19,9 @@ object cabezal {
 		keyboard.space().onPressDo{planta.accionCabezal()}
 		keyboard.z().onPressDo{indicadorSoles.aumentarSoles(11)} //Para probar como se ven los numeros de la cantidad de soles
 		keyboard.x().onPressDo{indicadorSoles.sacarSoles(10)}
-		keyboard.w().onPressDo{cabezalDeSeleccion.moverIzquierda()}
+		keyboard.e().onPressDo{cabezalDeSeleccion.moverIzquierda()}
 		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
+		keyboard.space().onPressDo{game.addVisual(new Sol(position = self.position()))}
 	}
 	
 	
@@ -53,7 +54,7 @@ object cabezal {
 	
 	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) and planta!=ningunaPlanta
 	method laCeldaEstaVacia() = game.colliders(self).size()<1
-	method laPosicionEsValida(posicion) = posicion.y()!=7 and posicion.y()!=0  and posicion.x()>0
+	method laPosicionEsValida(posicion) = posicion.y()!=7 and posicion.y()!=0  and posicion.x() > 0 and posicion.x() < 14
 	method laPlantaSeleccionadaEsValida() = planta!=pala and planta!=ningunaPlanta
 	
 

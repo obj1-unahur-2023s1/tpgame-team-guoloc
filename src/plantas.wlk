@@ -26,6 +26,15 @@ object pala{
 	method id(a){}
 }
 
+class Sol {
+	var property imagenActual = new GestorAnimacion (imagenBase = "otros/sol_f")
+	var property position
+	method image() = imagenActual.image()
+	method spawn() = game.onTick(1000.randomUpTo(2000), "spawn", { => new Sol(position = self.position())})
+		
+}
+
+
 class Planta{
 	var property id = 0
 	var property position
