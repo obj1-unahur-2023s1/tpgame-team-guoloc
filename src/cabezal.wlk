@@ -8,16 +8,12 @@ object cabezal {
 	var property planta = ningunaPlanta //planta seleccionada para plantar
 	var property soles = 0 //cantidad de soles disponibles para gastar
 	var property image = planta.imagenCabezal()
+	var property cantidadPlantas = 0
+	
+	method serImpactado(algo){}
 	
 	method configurarTareas(){
 		//Añadir los eventos de teclado
-		keyboard.num1().onPressDo{self.cambiarPlanta(new Girasol())}
-		keyboard.num2().onPressDo{self.cambiarPlanta(new Guisante())}
-		keyboard.num3().onPressDo{self.cambiarPlanta(new PapaMina())}
-		keyboard.num4().onPressDo{self.cambiarPlanta(new Nuez())}
-		keyboard.num5().onPressDo{self.cambiarPlanta(new GuisanteDoble())}
-		keyboard.num6().onPressDo{self.cambiarPlanta(new Espinas())}
-		keyboard.num7().onPressDo{self.cambiarPlanta(pala)}
 		keyboard.a().onPressDo{if (self.laPlantaSeleccionadaEsValida())self.plantar()}
 		keyboard.d().onPressDo{self.desplantar()}
 		keyboard.space().onPressDo{planta.accionCabezal()}
@@ -37,9 +33,16 @@ object cabezal {
 	method plantar(){
 		//Plantar una planta si se puede, sino no hace nada
 		if(self.sePuedePlantarEn(self.position())){
-			game.addVisualIn(self.planta(), self.position());
+			game.addVisualIn(planta,self.position())
+			self.inicializarPlanta()
 			self.cambiarPlanta(ningunaPlanta)
 		}
+	}
+	
+	method inicializarPlanta(){
+			planta.id(cantidadPlantas)
+			cantidadPlantas += 1
+			planta.accionar(self.position())
 	}
 	
 	method desplantar(){
@@ -92,7 +95,7 @@ object cabezalDeSeleccion{
 }
 
 object administradorDeCabezal{
-	const objetosParaCabezal= [new Girasol(), new Guisante(), new PapaMina(), new Nuez(),new GuisanteDoble(),new Espinas(), pala ]
-	method objetoCabezal(indice) = objetosParaCabezal.get(indice).nuevaPlanta()
+	const objetosParaCabezal= [new Girasol(position = game.at(0,0)), new Guisante(position = game.at(0,0)), new PapaMina(position = game.at(0,0)), new Nuez(position = game.at(0,0)),new GuisanteDoble(position = game.at(0,0)),new Espinas(position = game.at(0,0)), pala ]
+	method objetoCabezal(indice) = objetosParaCabezal.get(indice).nuevaPlanta(cabezal.position())
 	
 }
