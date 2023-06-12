@@ -1,18 +1,31 @@
 import wollok.game.*
+import cabezal.*
 
 object ningunaPlanta{
 	method nuevaPlanta(){}
 	method imagenCabezal() = "cabezal.png"
+	method accionCabezal(){}
 }
 
 object pala{
 	method nuevaPlanta() = self
 	method imagenCabezal() = "imgPlantas/cabezal_pala.png"
+	method accionCabezal(){
+		cabezal.desplantar()
+	}
 }
 
 class Planta{
 	var property costoSoles = 0
 	var property salud = 50
+	method accionCabezal(){
+		cabezal.plantar()
+	}
+	method initialize(){
+		self.accionar()
+	}
+	method accionar(){}
+	
 }
 
 class Girasol inherits Planta{
@@ -20,6 +33,8 @@ class Girasol inherits Planta{
 	method image() = imagenActual.image()
 	method nuevaPlanta() = new Girasol()
 	method imagenCabezal() = "imgPlantas/cabezal_girasol.png"
+	
+	
 
 }
 

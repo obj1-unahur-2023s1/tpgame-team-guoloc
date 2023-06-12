@@ -20,6 +20,7 @@ object cabezal {
 		keyboard.num7().onPressDo{self.cambiarPlanta(pala)}
 		keyboard.a().onPressDo{if (self.laPlantaSeleccionadaEsValida())self.plantar()}
 		keyboard.d().onPressDo{self.desplantar()}
+		keyboard.space().onPressDo{planta.accionCabezal()}
 		keyboard.z().onPressDo{indicadorSoles.aumentarSoles(11)} //Para probar como se ven los numeros de la cantidad de soles
 		keyboard.x().onPressDo{indicadorSoles.sacarSoles(10)}
 		keyboard.w().onPressDo{cabezalDeSeleccion.moverIzquierda()}
@@ -43,7 +44,7 @@ object cabezal {
 	
 	method desplantar(){
 		//Desplantar los TODOS los objetos de la posicion actual
-		game.getObjectsIn(position)
+		game.colliders(self).forEach({o => game.removeVisual(o)})
 	}
 	
 	
