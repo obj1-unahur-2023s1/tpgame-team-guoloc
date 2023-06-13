@@ -20,7 +20,7 @@ object cabezal {
 		keyboard.x().onPressDo{indicadorSoles.sacarSoles(10)}
 		keyboard.e().onPressDo{cabezalDeSeleccion.moverIzquierda()}
 		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
-		keyboard.space().onPressDo{game.addVisual(new Sol(position = self.position()))}
+		keyboard.t().onPressDo{game.addVisual(new Sol(position = self.position()))}
 	}
 	
 	

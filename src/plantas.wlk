@@ -76,14 +76,18 @@ class Guisante inherits Planta{
 	method nuevaPlanta(posicion) = new Guisante(position = posicion)
 	method imagenCabezal() = "imgPlantas/cabezal_guisante.png"
 	
+	override method serDesplantado(){
+		super()
+		game.removeTickEvent("disparar" + id.toString())
+	}
 	
 	override method accionar(posicion){
 		
-		game.onTick(3000,"disparar" +id.toString() ,{self.dispararGuisante(posicion) guisantesDisparados +=1})
+		game.onTick(1500,"disparar" +id.toString() ,{self.dispararGuisante(posicion) guisantesDisparados +=1})
 	}
 	
 	method dispararGuisante(posicion){
-		game.addVisual(new ProyectilGuisante(position = posicion, id = guisantesDisparados))
+		game.addVisual(new ProyectilGuisante(position = posicion, idGuisante = guisantesDisparados.toString(), idPlanta = id.toString()))
 	}
 }
 
@@ -113,9 +117,10 @@ class ProyectilGuisante{
 	var property position
 	var property damage = 50
 	var property imagen = "otros/logo_sol.png"
-	const id
+	const idGuisante
+	const idPlanta
 	method initialize(){
-		game.onTick(1000,"movimiento" + id.toString(),{self.moverDerecha()})
+		game.onTick(500,"movimiento" + idPlanta  + idGuisante,{self.moverDerecha()})
 	}
 	
 	method image() = imagen
@@ -124,11 +129,15 @@ class ProyectilGuisante{
 		position = game.at(position.x()+1,position.y())
 	}
 	
+
+	
 	method impactar(objeto){
 		objeto.serImpactado(self)
+		self.destruir()
 	}
 	
 	method destruir(){
+		game.removeTickEvent("movimiento" + idPlanta + idGuisante)
 		game.removeVisual(self)
 	}
 	
