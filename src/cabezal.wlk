@@ -14,13 +14,12 @@ object cabezal {
 	
 	method configurarTareas(){
 		//Añadir los eventos de teclado
-		keyboard.a().onPressDo{self.plantarODesplantar()}
 		keyboard.space().onPressDo{planta.accionCabezal()}
 		keyboard.z().onPressDo{indicadorSoles.aumentarSoles(11)} //Para probar como se ven los numeros de la cantidad de soles
 		keyboard.x().onPressDo{indicadorSoles.sacarSoles(10)}
 		keyboard.e().onPressDo{cabezalDeSeleccion.moverIzquierda()}
 		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
-		keyboard.t().onPressDo{game.addVisual(new Sol(position = self.position()))}
+		keyboard.t().onPressDo{game.addVisual(new Sol(position = self.position(), idSol = 10000.randomUpTo(100000)))}
 	}
 	
 	
@@ -29,12 +28,7 @@ object cabezal {
 		planta = nuevaPlanta
 		image = planta.imagenCabezal()
 	}
-	method plantarODesplantar(){
-		if(planta == pala)
-			self.desplantar()
-		else if(self.laPlantaSeleccionadaEsValida())
-			self.plantar()
-	}
+	
 	method plantar(){
 		//Plantar una planta si se puede, sino no hace nada
 		if(self.sePuedePlantarEn(self.position())){
@@ -45,7 +39,7 @@ object cabezal {
 	}
 	
 	method inicializarPlanta(){
-			planta.id(cantidadPlantas)
+			planta.id(cantidadPlantas * 100)
 			cantidadPlantas += 1
 			planta.accionar(self.position())
 	}

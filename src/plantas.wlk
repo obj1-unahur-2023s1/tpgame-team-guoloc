@@ -29,9 +29,8 @@ object pala{
 class Sol {
 	var property imagenActual = new GestorAnimacion (imagenBase = "otros/sol_f")
 	var property position
+	var property idSol
 	method image() = imagenActual.image()
-	method spawn() = game.onTick(1000.randomUpTo(2000), "spawn", { => new Sol(position = self.position())})
-		
 }
 
 
@@ -48,13 +47,21 @@ class Planta{
 	}
 	
 	method serImpactado(algo){}
-	method accionar(p){}
+	method accionar(posicion){}
 }
 
 class Girasol inherits Planta{
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/girasol_f", idanim = id)
+	var property solesGenerados = 0
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new Girasol(position = posicion)
+	
+	override method accionar(posicion){
+		game.onTick(1000, "generarSoles" + id.toString(), {self.generarSoles(position) solesGenerados += 1})
+	}
+	method generarSoles(posicion){
+		game.addVisual(new Sol(position = posicion, idSol = solesGenerados.toString()))
+	}
 	
 	method imagenCabezal() = "imgPlantas/cabezal_girasol.png"
 	
