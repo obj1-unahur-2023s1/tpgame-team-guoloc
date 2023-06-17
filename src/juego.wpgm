@@ -8,6 +8,6 @@ program guolocVsZombies {
 	
 	configuracion.configurarResolucionPantalla()
 	administradorDeNivel.configurarInputs()
-	administradorDeNivel.cargarNivelPantallaJuego()
+	administradorDeNivel.cargarNivelPantallaInicio()
 	game.start()
 }

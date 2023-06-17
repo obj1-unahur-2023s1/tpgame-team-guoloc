@@ -59,9 +59,14 @@ class Girasol inherits Planta{
 	override method accionar(posicion){
 		game.onTick(1000, "generarSoles" + id.toString(), {self.generarSoles(position) solesGenerados += 1})
 	}
+	
 	method generarSoles(posicion){
-		game.addVisual(new Sol(position = posicion, idSol = solesGenerados.toString()))
+		if (self.puedeGenerarSol(posicion))
+			game.addVisual(new Sol(position = posicion, idSol = solesGenerados.toString()))
 	}
+	
+	method puedeGenerarSol(posicion) = posicion.allElements().size()<2 
+
 	
 	method imagenCabezal() = "imgPlantas/cabezal_girasol.png"
 	
@@ -123,7 +128,7 @@ class Espinas inherits Planta{
 class ProyectilGuisante{
 	var property position
 	var property damage = 50
-	var property imagen = "otros/logo_sol.png"
+	var property imagen = "imgPlantas/guisante_proyectil.png"
 	const idGuisante
 	const idPlanta
 	method initialize(){

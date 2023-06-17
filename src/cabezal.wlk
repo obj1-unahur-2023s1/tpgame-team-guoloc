@@ -32,6 +32,7 @@ object cabezal {
 	method plantar(){
 		//Plantar una planta si se puede, sino no hace nada
 		if(self.sePuedePlantarEn(self.position())){
+			planta.position(self.position())
 			game.addVisualIn(planta,self.position())
 			self.inicializarPlanta()
 			self.cambiarPlanta(ningunaPlanta)

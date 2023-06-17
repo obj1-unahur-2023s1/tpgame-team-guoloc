@@ -28,7 +28,7 @@ class Zombie {
 }
 
 class ZombieNormal inherits Zombie {
-	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_n_f")
+	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_f")
 	
 	method image() = imagenActual.image()
 	
@@ -38,7 +38,7 @@ class ZombieNormal inherits Zombie {
 }
 
 class ZombieConoDeTransito inherits Zombie {
-	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_f")
+	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
 	
 	method image() = imagenActual.image()
 	
