@@ -55,7 +55,7 @@ object cabezal {
 	method laPosicionEsValida(posicion) = posicion.y()!=7 and posicion.y()!=0  and posicion.x() > 0 and posicion.x() < 14
 	method laPlantaSeleccionadaEsValida() = planta!=pala and planta!=ningunaPlanta
 	
-
+	method esPlanta() = false
 	
 	
 }

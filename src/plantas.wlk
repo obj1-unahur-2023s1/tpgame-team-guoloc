@@ -46,11 +46,14 @@ class Planta{
 		cabezal.plantar()
 	}
 	
-	method serImpactado(algo){}
+	method serImpactado(){ salud = (salud - 10).max(0)}
 	method accionar(posicion){}
+	
+	method esPlanta() = true
 }
 
 class Girasol inherits Planta{
+	var property vida = 4
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/girasol_f", idanim = id)
 	var property solesGenerados = 0
 	method image() = imagenActual.image()
@@ -65,7 +68,7 @@ class Girasol inherits Planta{
 	
 	method imagenCabezal() = "imgPlantas/cabezal_girasol.png"
 	
-	
+	method recibirAtaque() { vida -= 1 }
 
 }
 

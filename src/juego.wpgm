@@ -1,6 +1,7 @@
 import wollok.game.*
 import configuracion.*
 import administradorDeNivel.*
+import zombies.*
 
 
 program guolocVsZombies {
@@ -9,5 +10,8 @@ program guolocVsZombies {
 	configuracion.configurarResolucionPantalla()
 	administradorDeNivel.configurarInputs()
 	administradorDeNivel.cargarNivelPantallaJuego()
+
+	configuracionZombie.spawnearZombie()
+	
 	game.start()
 }
