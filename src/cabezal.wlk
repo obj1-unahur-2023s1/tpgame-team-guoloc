@@ -20,6 +20,7 @@ object cabezal {
 		keyboard.e().onPressDo{cabezalDeSeleccion.moverIzquierda()}
 		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
 		keyboard.t().onPressDo{game.addVisual(new Sol(position = self.position(), idSol = 10000.randomUpTo(100000)))}
+		
 	}
 	
 	
@@ -31,11 +32,12 @@ object cabezal {
 	
 	method plantar(){
 		//Plantar una planta si se puede, sino no hace nada
-		if(self.sePuedePlantarEn(self.position())){
+		if(self.sePuedePlantarEn(self.position()) and self.tieneSolesSuficientes()){
 			planta.position(self.position())
 			game.addVisualIn(planta,self.position())
 			self.inicializarPlanta()
-			self.cambiarPlanta(ningunaPlanta)
+			indicadorSoles.sacarSoles(planta.costoSoles())
+			self.cambiarPlanta(planta.nuevaPlanta(self.position()))
 		}
 	}
 	
@@ -49,12 +51,14 @@ object cabezal {
 		//Desplantar los TODOS los objetos de la posicion actual
 		self.position().allElements().forEach{e=>e.serDesplantado()}
 	}
-	method serDesplantado(){}
 	
+	method serDesplantado(){}
+	method recolectarSol(sol){sol.serRecolectado()}
 	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) and planta!=ningunaPlanta
 	method laCeldaEstaVacia() = game.colliders(self).size()<1
 	method laPosicionEsValida(posicion) = posicion.y()!=7 and posicion.y()!=0  and posicion.x() > 0 and posicion.x() < 14
 	method laPlantaSeleccionadaEsValida() = planta!=pala and planta!=ningunaPlanta
+	method tieneSolesSuficientes() = indicadorSoles.cantidadSoles()>=planta.costoSoles()
 	
 
 	
