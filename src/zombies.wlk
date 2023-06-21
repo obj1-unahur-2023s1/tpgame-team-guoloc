@@ -6,13 +6,18 @@ class Zombie {
 	var property positionX = 20
 	var property positionY = 1.randomUpTo(5).truncate(0)
 	var property position = game.at(positionX, positionY)
+	var moving = true
 	
-	method moverse() { self.position(position.left(1)) }
+	method moverse() { 
+		if (moving) {
+			self.position(position.left(1))
+		}
+	}
 	
 	method atacar(planta) {
 		if (planta.esPlanta()) {
-			game.removeTickEvent("moverZombie")
-			game.onTick(600, "zombieAtaque", {planta.serImpactado()})
+			moving = false
+			game.onTick(1500, "zombieAtaque", {planta.recibirDanio(25)})
 		}
 	}
 	
@@ -35,7 +40,7 @@ class ZombieNormal inherits Zombie {
 }
 
 class ZombieConoDeTransito inherits Zombie {
-	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_f")
+	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
 	
 	method image() = imagenActual.image()
 }
@@ -54,6 +59,4 @@ object configuracionZombie inherits Zombie {
 			game.onTick(800, "moverZombie", {zombie.moverse()})
 			game.whenCollideDo(zombie, {p => zombie.atacar(p)}) 
 	}
-	
-	
 }

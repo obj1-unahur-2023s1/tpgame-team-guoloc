@@ -9,9 +9,11 @@ program guolocVsZombies {
 	
 	configuracion.configurarResolucionPantalla()
 	administradorDeNivel.configurarInputs()
+	administradorDeNivel.cargarNivelPantallaInicio()
 	administradorDeNivel.cargarNivelPantallaJuego()
 
 	configuracionZombie.spawnearZombie()
 	
+
 	game.start()
 }
