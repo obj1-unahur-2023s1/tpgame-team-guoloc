@@ -10,6 +10,8 @@ object cabezal {
 	var property image = planta.imagenCabezal()
 	var property cantidadPlantas = 0
 	
+	
+	method esPlanta() = false
 	method serImpactado(algo){}
 	
 	method configurarTareas(){
@@ -55,7 +57,8 @@ object cabezal {
 	method serDesplantado(){}
 	method recolectarSol(sol){sol.serRecolectado()}
 	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) and planta!=ningunaPlanta
-	method laCeldaEstaVacia() = game.colliders(self).size()<1
+	method plantasEnElCollider()= game.colliders(self).filter({o => o.esPlanta()}).size()
+	method laCeldaEstaVacia() = self.plantasEnElCollider() == 0
 	method laPosicionEsValida(posicion) = posicion.y()!=7 and posicion.y()!=0  and posicion.x() > 0 and posicion.x() < 14
 	method laPlantaSeleccionadaEsValida() = planta!=pala and planta!=ningunaPlanta
 	method tieneSolesSuficientes() = indicadorSoles.cantidadSoles()>=planta.costoSoles()

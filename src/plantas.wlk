@@ -6,6 +6,7 @@ object ningunaPlanta{
 	const property id = 0
 	const property costoSoles = 0
 	method nuevaPlanta(){}
+	method esPlanta() = false
 	method imagenCabezal() = "cabezal.png"
 	
 	//metodos vacios
@@ -23,6 +24,7 @@ object pala{
 		cabezal.desplantar()
 	}
 	
+	method esPlanta() = false
 	//metodos vacíos
 	method serImpactado(algo){}
 	method accionar(a){}
@@ -40,8 +42,17 @@ class Planta{
 		cabezal.plantar()
 	}
 	
-	method serImpactado(algo){}
+	method esPlanta() = true
+	method serImpactado(algo){
+	}
 	method accionar(posicion){}
+	
+	method recibirDanio(danio){
+		salud = salud - danio
+		if(salud <= 0){
+			self.serDesplantado()
+		}
+	}
 }
 
 class Girasol inherits Planta{
@@ -131,7 +142,9 @@ class Guisante inherits Planta{
 	}
 	
 	method dispararGuisante(posicion){
-		game.addVisual(new ProyectilGuisante(position = posicion, idGuisante = guisantesDisparados.toString(), idPlanta = id.toString()))
+		const guisante = new ProyectilGuisante(position = posicion, idGuisante = guisantesDisparados.toString(), idPlanta = id.toString())
+		game.addVisual(guisante)
+		game.onCollideDo(guisante,{objeto => objeto.serImpactado(self)})
 	}
 }
 
@@ -166,6 +179,8 @@ class ProyectilGuisante{
 	var property imagen = "imgPlantas/guisante_proyectil.png"
 	const idGuisante
 	const idPlanta
+	
+	method serImpactado(algo){}
 	method initialize(){
 		game.onTick(500,"movimiento" + idPlanta  + idGuisante,{self.moverDerecha()})
 	}
@@ -176,7 +191,7 @@ class ProyectilGuisante{
 		position = game.at(position.x()+1,position.y())
 	}
 	
-
+	method esPlanta() = false
 	
 	method impactar(objeto){
 		objeto.serImpactado(self)
