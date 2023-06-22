@@ -1,6 +1,7 @@
 import wollok.game.*
 import cabezal.*
 import logoPlanta.*
+import gestores.*
 
 object ningunaPlanta{
 	const property id = 0
@@ -32,7 +33,7 @@ object pala{
 }
 
 class Planta{
-	var property id = 0
+	var property id = {gestorIds.aumentarId() gestorIds.nuevoId()}
 	var property position
 	var property salud = 50
 	method serDesplantado(){
@@ -63,13 +64,13 @@ class Girasol inherits Planta{
 	method nuevaPlanta(posicion) = new Girasol(position = posicion)
 	
 	override method accionar(posicion){
-		game.onTick(10000, "generarSoles" + id.toString(), {self.generarSoles(position) solesGenerados += 1})
+		game.onTick(10000, "generarSoles" + id.toString(), {gestorIds.aumentarId() self.generarSoles(position)})
 	}
 	
 	method generarSoles(posicion){
 		if (self.puedeGenerarSol(posicion))
 		{
-			const solCreado = new Sol(position = posicion, idSol = solesGenerados.toString())
+			const solCreado = new Sol(position = posicion, idSol = gestorIds.nuevoId())
 			game.addVisual(solCreado)
 			solCreado.accionar()
 		}
@@ -126,7 +127,6 @@ class PapaMina inherits Planta{
 class Guisante inherits Planta{
 	const property costoSoles = 100
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/guisante_f", idanim = id)
-	var property guisantesDisparados = 0
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new Guisante(position = posicion)
 	method imagenCabezal() = "imgPlantas/cabezal_guisante.png"
@@ -138,13 +138,13 @@ class Guisante inherits Planta{
 	
 	override method accionar(posicion){
 		
-		game.onTick(1500,"disparar" +id.toString() ,{self.dispararGuisante(posicion) guisantesDisparados +=1})
+		game.onTick(1500,"disparar" +id.toString() ,{gestorIds.aumentarId() self.dispararGuisante(posicion)})
 	}
 	
 	method dispararGuisante(posicion){
-		const guisante = new ProyectilGuisante(position = posicion, idGuisante = guisantesDisparados.toString(), idPlanta = id.toString())
+		const guisante = new ProyectilGuisante(position = posicion, idGuisante = gestorIds.nuevoId())
 		game.addVisual(guisante)
-		game.onCollideDo(guisante,{objeto => objeto.serImpactado(self)})
+		game.onCollideDo(guisante,{objeto => objeto.serImpactado(guisante)})
 	}
 }
 
@@ -178,11 +178,11 @@ class ProyectilGuisante{
 	var property damage = 50
 	var property imagen = "imgPlantas/guisante_proyectil.png"
 	const idGuisante
-	const idPlanta
+
 	
 	method serImpactado(algo){}
 	method initialize(){
-		game.onTick(500,"movimiento" + idPlanta  + idGuisante,{self.moverDerecha()})
+		game.onTick(500,"movimientoGuisante"+ idGuisante.toString(),{self.moverDerecha()})
 	}
 	
 	method image() = imagen
@@ -199,26 +199,12 @@ class ProyectilGuisante{
 	}
 	
 	method destruir(){
-		game.removeTickEvent("movimiento" + idPlanta + idGuisante)
+		game.removeTickEvent("movimientoGuisante" + idGuisante)
 		game.removeVisual(self)
 	}
 	
 }
 
 
-
-class GestorAnimacion{
-	var frameActual = 0
-	const imagenBase
-	var property idanim = 0
-	
-	method initialize(){
-		game.onTick(200, "animacionIdle" + idanim.toString(), {self.cambiarFrame()})
-	}
-
-	method cambiarFrame(){frameActual = self.frameOpuesto()}
-	method frameOpuesto() = if(frameActual==0) 1 else 0
-	method image() = imagenBase + frameActual.toString() + ".png"
-}
 
 

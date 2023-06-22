@@ -1,5 +1,6 @@
 import wollok.game.*
 import plantas.*
+import gestores.*
 
 class Zombie {
 	var property salud = 100
@@ -21,7 +22,11 @@ class Zombie {
 		}
 	}
 	
-	method serImpactado() { salud = (salud - 20).max(0) }
+	method serImpactado(algo) { 
+		salud = (salud - algo.damage()).max(0)
+		self.muerte()
+		algo.destruir()
+	}
 	
 	method esPlanta() = false
 

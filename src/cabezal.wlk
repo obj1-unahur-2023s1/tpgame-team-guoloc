@@ -1,6 +1,7 @@
 import wollok.game.*
 import plantas.*
 import logoPlanta.*
+import gestores.*
 
 object cabezal {
 	//Selector de celdas para poner/sacar las plantas y realizar otras acciones
@@ -8,7 +9,6 @@ object cabezal {
 	var property planta = ningunaPlanta //planta seleccionada para plantar
 	var property soles = 0 //cantidad de soles disponibles para gastar
 	var property image = planta.imagenCabezal()
-	var property cantidadPlantas = 0
 	
 	
 	method esPlanta() = false
@@ -44,8 +44,7 @@ object cabezal {
 	}
 	
 	method inicializarPlanta(){
-			planta.id(cantidadPlantas * 100)
-			cantidadPlantas += 1
+			
 			planta.accionar(self.position())
 	}
 	
