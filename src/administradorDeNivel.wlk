@@ -9,19 +9,20 @@ object administradorDeNivel {
 	
 	method configurarInputs(){
 		//Configurar los inputs del administrador de nivel. 
-		keyboard.space().onPressDo{if(indiceNivelActual==0){self.cargarNivelPantallaJuego()}} //Ir de pantalla de inicio a pantalla de juego
+		keyboard.space().onPressDo{if(indiceNivelActual!=1){self.cargarNivelPantallaJuego()}} //Ir de pantalla de inicio a pantalla de juego
 	}
 	method cargarNivelPantallaInicio(){
 		//Cargar los visuals y fondo del juego
 		game.boardGround("fondo.png")
 		game.addVisual(logoPrincipal)
 		indiceNivelActual = 0
-		game.schedule(100, {administradorMusica.iniciarMusica()}) //esto esta en administrador de nivel
+		game.schedule(100, {administradorMusica.iniciarMusicaInicio()}) //esto esta en administrador de nivel
 		
 	}
 	
 	method cargarNivelPantallaJuego(){
 		//Cargar los visuals de la pantalla de juego (donde plantamos)
+		game.schedule(100, {administradorMusica.iniciarMusicaJuego()})
 		game.removeVisual(logoPrincipal)
 		game.addVisualCharacter(cabezal)
 		game.addVisual(cabezalDeSeleccion)
@@ -33,8 +34,15 @@ object administradorDeNivel {
 	method cargarNivelPantallaGameOver(){
 		//Cargar los visuals de la pantalla de game over
 		game.clear()
-		game.addVisual(new LogoPrincipal(position=game.center(), image="pantalla_gameOver.png"))
+		game.addVisual(new LogoPrincipal(position=game.at(4,0), image="pantalla_gameOver.png"))
 		indiceNivelActual = 2
+	}
+	
+	method cargarNivelPantallaVictoria(){
+		//Cargar los visuals de la pantalla de game over
+		game.clear()
+		game.addVisual(new LogoPrincipal(position=game.at(4,0), image="pantalla_victoria.png"))
+		indiceNivelActual = 3
 	}
 	
 
@@ -46,10 +54,20 @@ class LogoPrincipal{
 }
 
 object administradorMusica{
-	const musicaFondo = game.sound("mus_spider.mp3")
-	method iniciarMusica(){
+	var musicaFondo
+	
+	method iniciarMusicaInicio(){
+		musicaFondo = game.sound("mus_inicio.mp3")
+		musicaFondo.volume(0.3)
+		musicaFondo.shouldLoop(true)
+		musicaFondo.play()
+	}
+	
+
+	method iniciarMusicaJuego(){
+		musicaFondo.stop()
+		musicaFondo = game.sound("mus_juego.mp3")
 		musicaFondo.volume(0.1)
 		musicaFondo.play()
-		
 	}
 }
