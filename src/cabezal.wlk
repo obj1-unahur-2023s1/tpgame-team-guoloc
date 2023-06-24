@@ -11,6 +11,7 @@ object cabezal {
 	var property image = planta.imagenCabezal()
 	
 	
+	method esZombie() = false
 	method esPlanta() = false
 	method serImpactado(algo){}
 	

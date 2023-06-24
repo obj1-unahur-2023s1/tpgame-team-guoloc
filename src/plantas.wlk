@@ -14,6 +14,7 @@ object ningunaPlanta{
 	method id(a){}
 	method accionCabezal(){}
 	method accionar(a){}
+	method esZombie() = false
 }
 
 object pala{
@@ -30,12 +31,13 @@ object pala{
 	method serImpactado(algo){}
 	method accionar(a){}
 	method id(a){}
+	method esZombie() = false
 }
 
 class Planta{
-	var property id = {gestorIds.aumentarId() gestorIds.nuevoId()}
+	var property id =gestorIds.nuevoId()
 	var property position
-	var property salud = 50
+	var property salud = 1000
 	method serDesplantado(){
 		game.removeVisual(self)
 	}
@@ -44,6 +46,7 @@ class Planta{
 	}
 	
 	method esPlanta() = true
+	method esZombie() = false
 	method serImpactado(algo){
 	}
 	method accionar(posicion){}
@@ -51,9 +54,16 @@ class Planta{
 	method recibirDanio(danio){
 		salud = salud - danio
 		if(salud <= 0){
-			self.serDesplantado()
+			self.morir()
 		}
 	}
+	method morir(){
+		game.colliders(self).filter({o => o.esZombie()}).forEach({z => z.continuar()})
+		self.serDesplantado()
+		
+	}
+	
+	
 }
 
 class Girasol inherits Planta{
@@ -63,8 +73,9 @@ class Girasol inherits Planta{
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new Girasol(position = posicion)
 	
+	
 	override method accionar(posicion){
-		game.onTick(10000, "generarSoles" + id.toString(), {gestorIds.aumentarId() self.generarSoles(position)})
+		game.onTick(10000, "generarSoles" + id.toString(), {self.generarSoles(position)})
 	}
 	
 	method generarSoles(posicion){
@@ -93,7 +104,9 @@ class Girasol inherits Planta{
 class Sol {
 	var property imagenActual = new GestorAnimacion (imagenBase = "otros/sol_f")
 	var property position
-	var property idSol
+	var property idSol = gestorIds.nuevoId()
+	
+	
 	
 	method initialize(){
 		if (game.getObjectsIn(self.position()).contains(self))
@@ -112,6 +125,7 @@ class Sol {
 		game.onTick(2000,"desaparecerSol" +idSol.toString() ,{self.serRecolectado()})
 	}
 	
+	method esZombie() = false
 	method serDesplantado(){}
 	method esPlanta() = false
 	method serImpactado(algo){}
@@ -141,7 +155,7 @@ class Guisante inherits Planta{
 	
 	override method accionar(posicion){
 		
-		game.onTick(1500,"disparar" +id.toString() ,{gestorIds.aumentarId() self.dispararGuisante(posicion)})
+		game.onTick(1500,"disparar" +id.toString() ,{self.dispararGuisante(posicion)})
 	}
 	
 	method dispararGuisante(posicion){
@@ -195,6 +209,7 @@ class ProyectilGuisante{
 	}
 	
 	method esPlanta() = false
+	method esZombie() = false
 	
 	method impactar(objeto){
 		objeto.serImpactado(self)

@@ -50,7 +50,6 @@ object administradorMusica{
 	method iniciarMusica(){
 		musicaFondo.volume(0.1)
 		musicaFondo.play()
-		musicaFondo.resume()
 		
 	}
 }

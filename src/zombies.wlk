@@ -3,11 +3,23 @@ import plantas.*
 import gestores.*
 
 class Zombie {
+	var property id = gestorIds.nuevoId()
 	var property salud = 100
 	var property positionX = 20
 	var property positionY = 1.randomUpTo(5).truncate(0)
 	var property position = game.at(positionX, positionY)
 	var moving = true
+	var ataque = false
+	
+	method cambiarAtaque(){
+		ataque = not ataque
+	}
+	
+	method esZombie() = true
+	
+	method continuar(){
+		moving = true
+	}
 	
 	method moverse() { 
 		if (moving) {
@@ -15,11 +27,20 @@ class Zombie {
 		}
 	}
 	
-	method atacar(planta) {
-		if (planta.esPlanta()) {
+	
+	method parar(){
+		
+		if(self.colisionaConPlanta()){
 			moving = false
-			game.onTick(1500, "zombieAtaque", {planta.recibirDanio(25)})
 		}
+			
+	}
+	
+	method atacar(){
+		if(not ataque){
+			game.colliders(self).filter({p => p.esPlanta()}).forEach({p => p.recibirDanio(30)})
+		}
+		
 	}
 	
 	method serImpactado(algo) { 
@@ -36,6 +57,8 @@ class Zombie {
 			game.removeVisual(self)
 		}
 	}
+	method colisionaConPlanta() =
+		game.colliders(self).any({p => p.esPlanta()})
 }
 
 class ZombieNormal inherits Zombie {
@@ -61,7 +84,9 @@ object configuracionZombie inherits Zombie {
 	
 	method spawnearZombie() {
 			game.addVisual(zombie)
-			game.onTick(800, "moverZombie", {zombie.moverse()})
-			game.whenCollideDo(zombie, {p => zombie.atacar(p)}) 
+			game.onTick(800, "moverZombie" + zombie.id().toString(), {zombie.moverse()})
+			game.onTick(2000, "zombieAtaque" + zombie.id().toString(), {zombie.cambiarAtaque()})
+			game.whenCollideDo(zombie, {p => zombie.parar()})
+			game.whenCollideDo(zombie, {p => zombie.atacar()}) 
 	}
 }

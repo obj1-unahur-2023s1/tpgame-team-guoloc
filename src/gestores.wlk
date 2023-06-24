@@ -19,9 +19,9 @@ class GestorAnimacion{
 
 object gestorIds{
 	var id = 0
-	method aumentarId(){
-		id +=1
+	method nuevoId(){
+		id += 1
+		return id	
 	}
-	method nuevoId() = id
 	
 }
