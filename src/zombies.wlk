@@ -4,25 +4,21 @@ import gestores.*
 
 class Zombie {
 	var property id = gestorIds.nuevoId()
-	var property salud = 100
+	var property salud = 5000
 	var property positionX = 20
 	var property positionY = 1.randomUpTo(5).truncate(0)
 	var property position = game.at(positionX, positionY)
 	var moving = true
-	var ataque = false
-	
-	method cambiarAtaque(){
-		ataque = not ataque
-	}
+
 	
 	method text() = salud.toString()
 	method esZombie() = true
 	method esSol() = false
 	method esPlanta() = false
+	method serDesplantado(){}
+	method esCabezal() = false
 	
-	method continuar(){
-		moving = true
-	}
+
 	
 	method moverse() { 
 		if (moving) {
@@ -32,10 +28,6 @@ class Zombie {
 	
 	
 	method parar(){
-		if(self.colisionaConPlantaAtacable()){
-			moving = false
-		}
-			
 	}
 	
 	method atacar(){
@@ -67,6 +59,19 @@ class Zombie {
 class ZombieNormal inherits Zombie {
 	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_f")
 	
+	method continuar(){
+			moving = true
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_f")
+	}
+	
+	
+	override method parar(){
+		if(self.colisionaConPlantaAtacable() && moving){
+			moving = false
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_Comiendo_f")
+		}	
+	}
+	
 	method image() = imagenActual.image()
 }
 
@@ -74,12 +79,36 @@ class ZombieConoDeTransito inherits Zombie {
 	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
 	
 	method image() = imagenActual.image()
+	
+	method continuar(){
+			moving = true
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_f")
+	}
+	
+	override method parar(){
+		if(self.colisionaConPlantaAtacable() && moving){
+			moving = false
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_Comiendo_f")
+		}	
+	}
 }
 
 class ZombieBucketHead inherits Zombie {
 	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
 	
 	method image() = imagenActual.image()
+	
+	method continuar(){
+			moving = true
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
+	}
+	
+	override method parar(){
+		if(self.colisionaConPlantaAtacable() && moving){
+			moving = false
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_Comiendo_f")
+		}	
+	}
 }
 
 object configuracionZombie inherits Zombie {

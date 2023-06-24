@@ -14,7 +14,7 @@ object cabezal {
 	method esZombie() = false
 	method esPlanta() = false
 	method serImpactado(algo){}
-	
+	method esCabezal() = true
 	method configurarTareas(){
 		//Añadir los eventos de teclado
 		keyboard.space().onPressDo{planta.accionCabezal()}
