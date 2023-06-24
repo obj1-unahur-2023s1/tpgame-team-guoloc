@@ -44,3 +44,9 @@ class LogoPrincipal{
 	var property image
 }
 
+object administradorMusica{
+	const musicaFondo = game.sound("mus_spider.mp3")
+	method iniciarMusica(){
+		musicaFondo.play()
+	}
+}

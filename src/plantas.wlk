@@ -113,6 +113,9 @@ class Sol {
 	}
 	
 	method serDesplantado(){}
+	method esPlanta() = false
+	method serImpactado(algo){}
+	method recibirDanio(){}
 	
 }
 
