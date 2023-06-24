@@ -16,6 +16,7 @@ object administradorDeNivel {
 		game.boardGround("fondo.png")
 		game.addVisual(logoPrincipal)
 		indiceNivelActual = 0
+		game.schedule(100, {administradorMusica.iniciarMusica()}) //esto esta en administrador de nivel
 		
 	}
 	
@@ -47,6 +48,9 @@ class LogoPrincipal{
 object administradorMusica{
 	const musicaFondo = game.sound("mus_spider.mp3")
 	method iniciarMusica(){
+		musicaFondo.volume(0.1)
 		musicaFondo.play()
+		musicaFondo.resume()
+		
 	}
 }

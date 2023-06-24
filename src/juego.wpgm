@@ -6,14 +6,14 @@ import zombies.*
 
 program guolocVsZombies {
 	
-	const musica = game.sound("mus_spider.mp3") //Esto ya deberia hacer sonar la musica
+
 	configuracion.configurarResolucionPantalla()
 	administradorDeNivel.configurarInputs()
 	administradorDeNivel.cargarNivelPantallaInicio()
 	administradorDeNivel.cargarNivelPantallaJuego()
-	//administradorMusica.iniciarMusica() //esto esta en administrador de nivel
 	configuracionZombie.spawnearZombie()
 	
 
 	game.start()
+	
 }
