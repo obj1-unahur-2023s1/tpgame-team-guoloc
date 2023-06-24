@@ -15,6 +15,7 @@ object ningunaPlanta{
 	method accionCabezal(){}
 	method accionar(a){}
 	method esZombie() = false
+	method esSol() = false
 }
 
 object pala{
@@ -26,18 +27,20 @@ object pala{
 		cabezal.desplantar()
 	}
 	
-	method esPlanta() = false
+	
 	//metodos vacíos
 	method serImpactado(algo){}
 	method accionar(a){}
 	method id(a){}
 	method esZombie() = false
+	method esPlanta() = false
+	method esSol() = false
 }
 
 class Planta{
 	var property id =gestorIds.nuevoId()
 	var property position
-	var property salud = 1000
+	var property salud = 250
 	method serDesplantado(){
 		game.removeVisual(self)
 	}
@@ -45,12 +48,13 @@ class Planta{
 		cabezal.plantar()
 	}
 	
+	method detieneMovimiento() = true
 	method esPlanta() = true
 	method esZombie() = false
-	method serImpactado(algo){
-	}
+	method esSol() = false
+	method serImpactado(algo){}
 	method accionar(posicion){}
-	
+	method zombiesEnLaPosicion() = game.colliders(self).filter({o => o.esZombie()})
 	method recibirDanio(danio){
 		salud = salud - danio
 		if(salud <= 0){
@@ -58,7 +62,7 @@ class Planta{
 		}
 	}
 	method morir(){
-		game.colliders(self).filter({o => o.esZombie()}).forEach({z => z.continuar()})
+		self.zombiesEnLaPosicion().forEach({z => z.continuar()})
 		self.serDesplantado()
 		
 	}
@@ -75,22 +79,23 @@ class Girasol inherits Planta{
 	
 	
 	override method accionar(posicion){
-		game.onTick(10000, "generarSoles" + id.toString(), {self.generarSoles(position)})
+		game.onTick(10000, "generarSoles" + id.toString(), {self.generarSoles()})
 	}
 	
-	method generarSoles(posicion){
-		if (self.puedeGenerarSol(posicion))
+	method generarSoles(){
+		if (self.puedeGenerarSol())
 		{
-			const solCreado = new Sol(position = posicion, idSol = gestorIds.nuevoId())
+			const solCreado = new Sol(position = position, idSol = gestorIds.nuevoId())
 			game.addVisual(solCreado)
 			solCreado.accionar()
 		}
 			
 	}
 	
-	method puedeGenerarSol(posicion) = posicion.allElements().size()<2 
+	method puedeGenerarSol() = self.solesEnLaPosicion() == 0
 
-	
+	method solesEnLaPosicion() = position.allElements().filter({o => o.esSol()}).size()
+		
 	method imagenCabezal() = "imgPlantas/cabezal_girasol.png"
 	
 	override method serDesplantado(){
@@ -101,44 +106,32 @@ class Girasol inherits Planta{
 
 }
 
-class Sol {
-	var property imagenActual = new GestorAnimacion (imagenBase = "otros/sol_f")
-	var property position
-	var property idSol = gestorIds.nuevoId()
-	
-	
-	
-	method initialize(){
-		if (game.getObjectsIn(self.position()).contains(self))
-		game.onCollideDo(cabezal, { cabezal => self.serRecolectado()})
-	}
-	
-	method image() = imagenActual.image()
-	
-	method serRecolectado(){
-		indicadorSoles.aumentarSoles(25)
-		game.removeTickEvent("desaparecerSol" +idSol.toString())
-		game.removeVisual(self)
-	}
-	
-	method accionar(){
-		game.onTick(2000,"desaparecerSol" +idSol.toString() ,{self.serRecolectado()})
-	}
-	
-	method esZombie() = false
-	method serDesplantado(){}
-	method esPlanta() = false
-	method serImpactado(algo){}
-	method recibirDanio(){}
-	
-}
+
 
 class PapaMina inherits Planta{
 	const property costoSoles = 25
+	const property damage = 9999
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/papa_f", idanim = id)
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new PapaMina(position = posicion)
 	method imagenCabezal() = "imgPlantas/cabezal_papa.png"
+	
+	override method accionar(posicion){
+		self.modoExplosion()
+	}
+	
+	method modoExplosion(){
+		game.onCollideDo(self,{z => self.explotar()})
+	}
+	
+	method explotar(){
+		if(self.zombiesEnLaPosicion().size() > 0){
+			self.zombiesEnLaPosicion().forEach({z => z.serImpactado(self)})
+			self.serDesplantado()
+		}
+	}
+	
+	method destruir(){}
 }
 
 class Guisante inherits Planta{
@@ -171,6 +164,16 @@ class GuisanteDoble inherits Planta{
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new GuisanteDoble(position = posicion)
 	method imagenCabezal() = "imgPlantas/cabezal_guisanteDoble.png"
+	
+	override method accionar(posicion){
+		game.onTick(1500,"disparar" +id.toString() ,{self.dispararGuisante(posicion)})
+	}
+	
+	method dispararGuisante(posicion){
+		const guisante = new ProyectilGuisanteDoble(position = posicion, idGuisante = gestorIds.nuevoId())
+		game.addVisual(guisante)
+		game.onCollideDo(guisante,{objeto => objeto.serImpactado(guisante)})
+	}
 }
 
 class Nuez inherits Planta{
@@ -183,18 +186,84 @@ class Nuez inherits Planta{
 
 class Espinas inherits Planta{
 	const property costoSoles = 50
+	const property damage = 3
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/espinas_f", idanim = id)
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new Espinas(position = posicion)
 	method imagenCabezal() = "imgPlantas/cabezal_espinas.png"
+	
+	override method accionar(posicion){
+		game.onTick(100, "ataqueEspinas" + id.toString(), {self.atacar()})
+	}
+	
+	override method detieneMovimiento() = false
+	
+	method atacar(){
+		self.zombiesEnLaPosicion().forEach({z => z.serImpactado(self)})
+	}
+	
+	override method serDesplantado(){
+		super()
+		game.removeTickEvent("ataqueEspinas" + id.toString())
+	}
+	
 
 }
+
+//generados por plantas
+
+
+class Sol {
+	var property imagenActual = new GestorAnimacion (imagenBase = "otros/sol_f")
+	var property position
+	var property idSol = gestorIds.nuevoId()
+	
+	
+	
+	method initialize(){
+		if (game.getObjectsIn(self.position()).contains(self))
+		game.onCollideDo(cabezal, { cabezal => self.serRecolectado()})
+	}
+	
+	method image() = imagenActual.image()
+	
+	method serRecolectado(){
+		indicadorSoles.aumentarSoles(25)
+		game.removeTickEvent("desaparecerSol" +idSol.toString())
+		game.removeVisual(self)
+	}
+	
+	method accionar(){
+		game.onTick(2000,"desaparecerSol" +idSol.toString() ,{self.serRecolectado()})
+	}
+	
+	method esSol() = true
+	method esZombie() = false
+	method serDesplantado(){}
+	method esPlanta() = false
+	method serImpactado(algo){}
+	method recibirDanio(){}
+	
+}
+
+
+
+
+
+class ProyectilGuisanteDoble inherits ProyectilGuisante{
+	method initialize(){
+		damage = 100
+		imagen = "imgPlantas/guisanteDoble_proyectil.png"
+		game.onTick(500,"movimientoGuisante"+ idGuisante.toString(),{self.moverDerecha()})
+	}
+}
+
 
 class ProyectilGuisante{
 	var property position
 	var property damage = 50
 	var property imagen = "imgPlantas/guisante_proyectil.png"
-	const idGuisante
+	const idGuisante = gestorIds.nuevoId()
 
 	
 	method serImpactado(algo){}
@@ -210,11 +279,8 @@ class ProyectilGuisante{
 	
 	method esPlanta() = false
 	method esZombie() = false
+	method esSol() = false
 	
-	method impactar(objeto){
-		objeto.serImpactado(self)
-		self.destruir()
-	}
 	
 	method destruir(){
 		game.removeTickEvent("movimientoGuisante" + idGuisante)

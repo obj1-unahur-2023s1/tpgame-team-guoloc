@@ -15,7 +15,10 @@ class Zombie {
 		ataque = not ataque
 	}
 	
+	method text() = salud.toString()
 	method esZombie() = true
+	method esSol() = false
+	method esPlanta() = false
 	
 	method continuar(){
 		moving = true
@@ -29,36 +32,35 @@ class Zombie {
 	
 	
 	method parar(){
-		
-		if(self.colisionaConPlanta()){
+		if(self.colisionaConPlantaAtacable()){
 			moving = false
 		}
 			
 	}
 	
 	method atacar(){
-		if(not ataque){
-			game.colliders(self).filter({p => p.esPlanta()}).forEach({p => p.recibirDanio(30)})
-		}
-		
+			self.plantasAtacables().forEach({p => p.recibirDanio(30)})	
 	}
 	
 	method serImpactado(algo) { 
 		salud = (salud - algo.damage()).max(0)
 		self.muerte()
-		algo.destruir()
 	}
 	
-	method esPlanta() = false
+	
 
 	method muerte() {
 		if (salud == 0) {
-			game.removeTickEvent("moverZombie")
+			game.removeTickEvent("moverZombie" + self.id().toString())
+			game.removeTickEvent("zombieAtaque" + self.id().toString() )
 			game.removeVisual(self)
 		}
 	}
-	method colisionaConPlanta() =
-		game.colliders(self).any({p => p.esPlanta()})
+	
+	method plantasEnPosicion() = game.colliders(self).filter({p => p.esPlanta()})
+	method plantasAtacables() = self.plantasEnPosicion().filter({p => p.detieneMovimiento()})
+	method colisionaConPlantaAtacable() = self.plantasAtacables().size() > 0
+	
 }
 
 class ZombieNormal inherits Zombie {
@@ -85,8 +87,8 @@ object configuracionZombie inherits Zombie {
 	method spawnearZombie() {
 			game.addVisual(zombie)
 			game.onTick(800, "moverZombie" + zombie.id().toString(), {zombie.moverse()})
-			game.onTick(2000, "zombieAtaque" + zombie.id().toString(), {zombie.cambiarAtaque()})
+			game.onTick(2000, "zombieAtaque" + zombie.id().toString(), {zombie.atacar()})
 			game.whenCollideDo(zombie, {p => zombie.parar()})
-			game.whenCollideDo(zombie, {p => zombie.atacar()}) 
+
 	}
 }
