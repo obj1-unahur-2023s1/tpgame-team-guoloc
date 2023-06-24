@@ -109,7 +109,7 @@ class Girasol inherits Planta{
 
 
 class PapaMina inherits Planta{
-	const property costoSoles = 25
+	const property costoSoles = 200
 	const property damage = 9999
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/papa_f", idanim = id)
 	method image() = imagenActual.image()
@@ -185,7 +185,7 @@ class Nuez inherits Planta{
 }
 
 class Espinas inherits Planta{
-	const property costoSoles = 50
+	const property costoSoles = 100
 	const property damage = 3
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/espinas_f", idanim = id)
 	method image() = imagenActual.image()

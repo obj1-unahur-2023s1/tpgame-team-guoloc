@@ -45,6 +45,7 @@ class Zombie {
 	method serImpactado(algo) { 
 		salud = (salud - algo.damage()).max(0)
 		self.muerte()
+		algo.destruir()
 	}
 	
 	
