@@ -13,7 +13,6 @@ object ningunaPlanta{
 	
 	//metodos vacios
 	method id(a){}
-	method esCabezal() = false
 	method accionCabezal(){}
 	method accionar(a){}
 	method esZombie() = false
@@ -31,7 +30,6 @@ object pala{
 	
 	
 	//metodos vacíos
-	method esCabezal() = false
 	method serImpactado(algo){}
 	method accionar(a){}
 	method id(a){}
@@ -51,7 +49,7 @@ class Planta{
 		cabezal.plantar()
 	}
 	
-	method esCabezal() = false
+	method recolectar(sol){}
 	method detieneMovimiento() = true
 	method esPlanta() = true
 	method esZombie() = false
@@ -211,6 +209,7 @@ class Espinas inherits Planta{
 		game.removeTickEvent("ataqueEspinas" + id.toString())
 	}
 	
+	method destruir(){}
 
 }
 
@@ -228,24 +227,24 @@ class Sol {
 	method image() = imagenActual.image()
 	
 	method serRecolectado(){
-		if(self.colisionaConCabezal()){
-			indicadorSoles.aumentarSoles(25)
-			game.removeVisual(self)
-		}
+		indicadorSoles.aumentarSoles(25)
+		self.destruir()
 	}
 	
 	method accionar(){
-		game.onCollideDo(self, { p => self.serRecolectado()})
+		game.schedule(300,{game.onCollideDo(self, { p => p.recolectar(self)})})
+		
 	}
 	
-	method esCabezal() = false
 	method esSol() = true
 	method esZombie() = false
 	method serDesplantado(){}
 	method esPlanta() = false
 	method serImpactado(algo){}
 	method recibirDanio(){}
-	method colisionaConCabezal() = game.colliders(self).any({o => o.esCabezal()})
+	method destruir() {
+		game.removeVisual(self)
+	}
 	
 	
 }
@@ -280,7 +279,6 @@ class ProyectilGuisante{
 		position = game.at(position.x()+1,position.y())
 	}
 	
-	method esCabezal() = false
 	method esPlanta() = false
 	method esZombie() = false
 	method esSol() = false

@@ -14,7 +14,6 @@ object cabezal {
 	method esZombie() = false
 	method esPlanta() = false
 	method serImpactado(algo){}
-	method esCabezal() = true
 	method configurarTareas(){
 		//Añadir los eventos de teclado
 		keyboard.space().onPressDo{planta.accionCabezal()}
@@ -45,7 +44,6 @@ object cabezal {
 	}
 	
 	method inicializarPlanta(){
-			
 			planta.accionar(self.position())
 	}
 	
@@ -54,8 +52,12 @@ object cabezal {
 		self.position().allElements().forEach{e=>e.serDesplantado()}
 	}
 	
+	method recolectar(sol){
+		sol.serRecolectado()		
+	}
+	
+	
 	method serDesplantado(){}
-	method recolectarSol(sol){sol.serRecolectado()}
 	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) and planta!=ningunaPlanta
 	method plantasEnElCollider()= game.colliders(self).filter({o => o.esPlanta()}).size()
 	method laCeldaEstaVacia() = self.plantasEnElCollider() == 0

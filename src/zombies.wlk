@@ -10,14 +10,13 @@ class Zombie {
 	var property positionY = 1.randomUpTo(5).truncate(0)
 	var property position = game.at(positionX, positionY)
 	var moving = true
-
 	
+	method recolectar(algo){}
 	method text() = salud.toString()
 	method esZombie() = true
 	method esSol() = false
 	method esPlanta() = false
 	method serDesplantado(){}
-	method esCabezal() = false
 	
 
 	
