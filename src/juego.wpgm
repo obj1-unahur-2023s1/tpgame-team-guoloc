@@ -11,8 +11,9 @@ program guolocVsZombies {
 	administradorDeNivel.configurarInputs()
 	administradorDeNivel.cargarNivelPantallaInicio()
 	//administradorDeNivel.cargarNivelPantallaGameOver()
-	administradorDeNivel.cargarNivelPantallaJuego()
-	configuracionZombie.spawnearZombie()
+	//administradorDeNivel.cargarNivelPantallaJuego()
+	//configuracionZombie.spawnearZombie()
+	spawnZombies.esperarYComenzarAtaque(20)
 	game.start()
 	
 }

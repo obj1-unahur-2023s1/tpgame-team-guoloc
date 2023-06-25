@@ -253,10 +253,9 @@ class Sol {
 
 
 
-
 class ProyectilGuisanteDoble inherits ProyectilGuisante{
 	method initialize(){
-		damage = 100
+		damage = 10
 		imagen = "imgPlantas/guisanteDoble_proyectil.png"
 		game.onTick(500,"movimientoGuisante"+ idGuisante.toString(),{self.moverDerecha()})
 	}
@@ -265,7 +264,7 @@ class ProyectilGuisanteDoble inherits ProyectilGuisante{
 
 class ProyectilGuisante{
 	var property position
-	var property damage = 50
+	var property damage = 5
 	var property imagen = "imgPlantas/guisante_proyectil.png"
 	const idGuisante = gestorIds.nuevoId()
 

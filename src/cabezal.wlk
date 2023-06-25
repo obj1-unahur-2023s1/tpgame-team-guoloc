@@ -10,7 +10,7 @@ object cabezal {
 	var property soles = 0 //cantidad de soles disponibles para gastar
 	var property image = planta.imagenCabezal()
 	
-	
+	method esSol() = false
 	method esZombie() = false
 	method esPlanta() = false
 	method serImpactado(algo){}

@@ -1,10 +1,11 @@
 import wollok.game.*
 import plantas.*
 import gestores.*
+import administradorDeNivel.*
 
 class Zombie {
 	var property id = gestorIds.nuevoId()
-	var property salud = 5000
+	var property salud = 25
 	var property positionX = 20
 	var property positionY = 1.randomUpTo(5).truncate(0)
 	var property position = game.at(positionX, positionY)
@@ -73,9 +74,11 @@ class ZombieNormal inherits Zombie {
 	}
 	
 	method image() = imagenActual.image()
+	
+	method nuevoZombie() = new ZombieNormal()
 }
 
-class ZombieConoDeTransito inherits Zombie {
+class ZombieConoDeTransito inherits Zombie(salud = 40){
 	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
 	
 	method image() = imagenActual.image()
@@ -91,9 +94,11 @@ class ZombieConoDeTransito inherits Zombie {
 			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_Comiendo_f")
 		}	
 	}
+	
+	method nuevoZombie() = new ZombieConoDeTransito()
 }
 
-class ZombieBucketHead inherits Zombie {
+class ZombieBucketHead inherits Zombie(salud = 50) {
 	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
 	
 	method image() = imagenActual.image()
@@ -109,6 +114,8 @@ class ZombieBucketHead inherits Zombie {
 			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_Comiendo_f")
 		}	
 	}
+	
+	method nuevoZombie() = new ZombieBucketHead()
 }
 
 object configuracionZombie inherits Zombie {
@@ -119,6 +126,53 @@ object configuracionZombie inherits Zombie {
 			game.onTick(800, "moverZombie" + zombie.id().toString(), {zombie.moverse()})
 			game.onTick(2000, "zombieAtaque" + zombie.id().toString(), {zombie.atacar()})
 			game.whenCollideDo(zombie, {p => zombie.parar()})
-
 	}
+}
+
+object spawnZombies{
+	const zombiesPosibles = [new ZombieNormal(), new ZombieBucketHead(), new ZombieConoDeTransito()]
+	const listaZombies = []
+	var segsEntreZombies = 10
+	
+	method esperarYComenzarAtaque(segs){
+		game.schedule(segs*1000, { => self.iniciarSpawn() })
+	}
+	
+	method generarListaZombiesRandom(){
+		//No me acuerdo como era el repeat ayuda
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+	}
+	
+	method iniciarSpawn(){
+		self.generarListaZombiesRandom()
+		game.onTick(segsEntreZombies*1000 , "crearZombie", {self.crearZombie()})
+	}
+	
+	method crearZombie(){
+		if (listaZombies.isEmpty()){
+			administradorDeNivel.cargarNivelPantallaVictoria()
+		}
+		else{
+			self.ponerZombieEnNivel(listaZombies.first())
+			listaZombies.remove(listaZombies.first())
+			segsEntreZombies = (segsEntreZombies-0.5).max(5)	
+		}
+	}
+	
+	method ponerZombieEnNivel(zombie){
+		game.addVisual(zombie)
+		game.onTick(800, "moverZombie" + zombie.id().toString(), {zombie.moverse()})
+		game.onTick(2000, "zombieAtaque" + zombie.id().toString(), {zombie.atacar()})
+		game.whenCollideDo(zombie, {p => zombie.parar()})
+	}
+	
+	
 }

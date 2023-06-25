@@ -36,6 +36,7 @@ object administradorDeNivel {
 		game.clear()
 		game.addVisual(new LogoPrincipal(position=game.at(4,0), image="pantalla_gameOver.png"))
 		indiceNivelActual = 2
+		self.configurarInputs()
 	}
 	
 	method cargarNivelPantallaVictoria(){
@@ -43,9 +44,9 @@ object administradorDeNivel {
 		game.clear()
 		game.addVisual(new LogoPrincipal(position=game.at(4,0), image="pantalla_victoria.png"))
 		indiceNivelActual = 3
+		self.configurarInputs()
 	}
-	
-
+		
 }
 
 class LogoPrincipal{
@@ -66,8 +67,8 @@ object administradorMusica{
 
 	method iniciarMusicaJuego(){
 		musicaFondo.stop()
-		musicaFondo = game.sound("mus_juego.mp3")
-		musicaFondo.volume(0.1)
+		musicaFondo = game.sound("mus_juego.ogg")
+		musicaFondo.volume(0.3)
 		musicaFondo.play()
 	}
 }
