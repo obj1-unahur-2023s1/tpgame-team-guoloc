@@ -6,6 +6,11 @@ class LogoPlanta {
 	const nombrePlanta
 	var property image = "logosPlantas/logo_"+nombrePlanta+"_0.png"
 	var property position = game.at(x,7)
+	method esZombie() = false
+	method esSol() = false
+	method esPlanta() = false
+	method serDesplantado(){}
+	method esCabezal() = false
 	
 }
 
@@ -37,18 +42,31 @@ object indicadorSoles{
 	method centenas() = (cantidadSoles/100).truncate(0) 	//Describe la cantidad de centeas de la cantidad de soles - Numero
 	method decenas() = ((cantidadSoles - self.centenas()*100)/10).truncate(0)		//Describe la cantidad de decenas de la cantidad de soles - Numero
 	method unidades() = (cantidadSoles - (self.centenas()*100) - (self.decenas()*10))		//Describe la cantidad de unidades de la cantidad de soles - Numero
-	
+	method esZombie() = false
+	method esSol() = false
+	method esPlanta() = false
+	method serDesplantado(){}
+	method esCabezal() = false
 }
 
-object centenasCantidadSoles{
+class HUDSoles{
+	method esZombie() = false
+	method esSol() = false
+	method esPlanta() = false
+	method serDesplantado(){}
+	method esCabezal() = false
+}
+
+object centenasCantidadSoles inherits HUDSoles{
 	var property position = game.at(0,7)
 	var property image = "otros/numeros/centenas_"+indicadorSoles.centenas().toString()+".png"
 	method refrescarNumero(){
 		self.image("otros/numeros/centenas_"+indicadorSoles.centenas().toString()+".png")
 	}
+	
 }
 
-object decenasCantidadSoles{
+object decenasCantidadSoles inherits HUDSoles{
 	var property position = game.at(0,7)
 	var property image = "otros/numeros/decenas_"+indicadorSoles.decenas().toString()+".png"
 	method refrescarNumero(){
@@ -56,7 +74,7 @@ object decenasCantidadSoles{
 	}
 }
 
-object unidadesCantidadSoles{
+object unidadesCantidadSoles inherits HUDSoles{
 	var property position = game.at(0,7)
 	var property image = "otros/numeros/unidad_"+indicadorSoles.unidades().toString()+".png"
 	method refrescarNumero(){

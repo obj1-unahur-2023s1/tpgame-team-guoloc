@@ -18,11 +18,8 @@ object cabezal {
 	method configurarTareas(){
 		//Añadir los eventos de teclado
 		keyboard.space().onPressDo{planta.accionCabezal()}
-		keyboard.z().onPressDo{indicadorSoles.aumentarSoles(11)} //Para probar como se ven los numeros de la cantidad de soles
-		keyboard.x().onPressDo{indicadorSoles.sacarSoles(10)}
 		keyboard.e().onPressDo{cabezalDeSeleccion.moverIzquierda()}
 		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
-		keyboard.t().onPressDo{game.addVisual(new Sol(position = self.position(), idSol = 10000.randomUpTo(100000)))}
 		
 	}
 	
@@ -95,6 +92,12 @@ object cabezalDeSeleccion{
 		
 		self.cambiarObjetoCabezal()
 	}
+	
+	method esZombie() = false
+	method esSol() = false
+	method esPlanta() = false
+	method serDesplantado(){}
+	method esCabezal() = false
 	
 }
 

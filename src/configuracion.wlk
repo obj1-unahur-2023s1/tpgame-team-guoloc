@@ -28,7 +28,6 @@ object configuracion{
 	
 	method agregarLogosPlantas(){
 		//Agregar los logos de las plantas donde nos posicionamos para cambiar de planta
-		//Esto esta re casero es para ver como queda nomas (nacho no me castresa)
 		game.addVisual(indicadorSoles)
 		game.addVisual(unidadesCantidadSoles)
 		game.addVisual(decenasCantidadSoles)

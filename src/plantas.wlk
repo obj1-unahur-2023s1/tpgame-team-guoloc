@@ -43,7 +43,7 @@ object pala{
 class Planta{
 	var property id =gestorIds.nuevoId()
 	var property position
-	var property salud = 250
+	var property salud = 50
 	method serDesplantado(){
 		game.removeVisual(self)
 	}
@@ -139,7 +139,7 @@ class PapaMina inherits Planta{
 }
 
 class Guisante inherits Planta{
-	const property costoSoles = 100
+	var property costoSoles = 100
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/guisante_f", idanim = id)
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new Guisante(position = posicion)
@@ -162,25 +162,28 @@ class Guisante inherits Planta{
 	}
 }
 
-class GuisanteDoble inherits Planta{
-	const property costoSoles = 200
-	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/guisanteDoble_f", idanim = id)
-	method image() = imagenActual.image()
-	method nuevaPlanta(posicion) = new GuisanteDoble(position = posicion)
-	method imagenCabezal() = "imgPlantas/cabezal_guisanteDoble.png"
+class GuisanteDoble inherits Guisante{
+	method initialize(){
+		costoSoles = 200
+		imagenActual = new GestorAnimacion(imagenBase="imgPlantas/guisanteDoble_f", idanim = id)
+	} 
+	
+	override method image() = imagenActual.image()
+	override method nuevaPlanta(posicion) = new GuisanteDoble(position = posicion)
+	override method imagenCabezal() = "imgPlantas/cabezal_guisanteDoble.png"
 	
 	override method accionar(posicion){
 		game.onTick(1500,"disparar" +id.toString() ,{self.dispararGuisante(posicion)})
 	}
 	
-	method dispararGuisante(posicion){
+	override method dispararGuisante(posicion){
 		const guisante = new ProyectilGuisanteDoble(position = posicion, idGuisante = gestorIds.nuevoId())
 		game.addVisual(guisante)
 		game.onCollideDo(guisante,{objeto => objeto.serImpactado(guisante)})
 	}
 }
 
-class Nuez inherits Planta{
+class Nuez inherits Planta(salud = 100){
 	const property costoSoles = 50
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/nuez_f", idanim = id)
 	method image() = imagenActual.image()
@@ -190,14 +193,14 @@ class Nuez inherits Planta{
 
 class Espinas inherits Planta{
 	const property costoSoles = 100
-	const property damage = 3
+	const property damage = 2
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/espinas_f", idanim = id)
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new Espinas(position = posicion)
 	method imagenCabezal() = "imgPlantas/cabezal_espinas.png"
 	
 	override method accionar(posicion){
-		game.onTick(100, "ataqueEspinas" + id.toString(), {self.atacar()})
+		game.onTick(200, "ataqueEspinas" + id.toString(), {self.atacar()})
 	}
 	
 	override method detieneMovimiento() = false
@@ -211,7 +214,7 @@ class Espinas inherits Planta{
 		game.removeTickEvent("ataqueEspinas" + id.toString())
 	}
 	
-
+	method destruir(){}
 }
 
 //generados por plantas
@@ -259,6 +262,8 @@ class ProyectilGuisanteDoble inherits ProyectilGuisante{
 		imagen = "imgPlantas/guisanteDoble_proyectil.png"
 		game.onTick(500,"movimientoGuisante"+ idGuisante.toString(),{self.moverDerecha()})
 	}
+	
+	
 }
 
 
@@ -278,12 +283,15 @@ class ProyectilGuisante{
 	
 	method moverDerecha(){
 		position = game.at(position.x()+1,position.y())
+		if (position.x()>18)
+			self.destruir()
 	}
 	
 	method esCabezal() = false
 	method esPlanta() = false
 	method esZombie() = false
 	method esSol() = false
+	method serDesplantado(){}
 	
 	
 	method destruir(){

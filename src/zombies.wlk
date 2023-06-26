@@ -18,21 +18,25 @@ class Zombie {
 	method esPlanta() = false
 	method serDesplantado(){}
 	method esCabezal() = false
+
 	
 
 	
 	method moverse() { 
 		if (moving) {
 			self.position(position.left(1))
+			if(self.position().x() < 0)
+				administradorDeNivel.cargarNivelPantallaGameOver()
 		}
 	}
+	
 	
 	
 	method parar(){
 	}
 	
 	method atacar(){
-			self.plantasAtacables().forEach({p => p.recibirDanio(30)})	
+			self.plantasAtacables().forEach({p => p.recibirDanio(10)})	
 	}
 	
 	method serImpactado(algo) { 
@@ -54,6 +58,7 @@ class Zombie {
 	method plantasEnPosicion() = game.colliders(self).filter({p => p.esPlanta()})
 	method plantasAtacables() = self.plantasEnPosicion().filter({p => p.detieneMovimiento()})
 	method colisionaConPlantaAtacable() = self.plantasAtacables().size() > 0
+	
 	
 }
 
@@ -79,7 +84,7 @@ class ZombieNormal inherits Zombie {
 }
 
 class ZombieConoDeTransito inherits Zombie(salud = 40){
-	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
+	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_f")
 	
 	method image() = imagenActual.image()
 	
@@ -133,22 +138,14 @@ object spawnZombies{
 	const zombiesPosibles = [new ZombieNormal(), new ZombieBucketHead(), new ZombieConoDeTransito()]
 	const listaZombies = []
 	var segsEntreZombies = 10
+	const cantZombies = 10
 	
 	method esperarYComenzarAtaque(segs){
 		game.schedule(segs*1000, { => self.iniciarSpawn() })
 	}
 	
 	method generarListaZombiesRandom(){
-		//No me acuerdo como era el repeat ayuda
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
-		listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())
+		(1..cantZombies).forEach{x => listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())}
 	}
 	
 	method iniciarSpawn(){
