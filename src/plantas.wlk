@@ -193,7 +193,7 @@ class Nuez inherits Planta(salud = 100){
 
 class Espinas inherits Planta{
 	const property costoSoles = 100
-	const property damage = 2
+	const property damage = 4
 	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/espinas_f", idanim = id)
 	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new Espinas(position = posicion)
@@ -300,7 +300,4 @@ class ProyectilGuisante{
 	}
 	
 }
-
-
-
 

@@ -21,7 +21,7 @@ object gestorIds{
 	var id = 0
 	method nuevoId(){
 		id += 1
-		return id	
+		return id
 	}
 	
 }
