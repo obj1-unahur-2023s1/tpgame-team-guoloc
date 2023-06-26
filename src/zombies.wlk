@@ -74,7 +74,7 @@ class ZombieNormal inherits Zombie {
 	override method parar(){
 		if(self.colisionaConPlantaAtacable() && moving){
 			moving = false
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_Comiendo_f")
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_comiendo_f")
 		}	
 	}
 	
@@ -96,7 +96,7 @@ class ZombieConoDeTransito inherits Zombie(salud = 40){
 	override method parar(){
 		if(self.colisionaConPlantaAtacable() && moving){
 			moving = false
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_Comiendo_f")
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_comiendo_f")
 		}	
 	}
 	
@@ -116,7 +116,7 @@ class ZombieBucketHead inherits Zombie(salud = 50) {
 	override method parar(){
 		if(self.colisionaConPlantaAtacable() && moving){
 			moving = false
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_Comiendo_f")
+			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_comiendo_f")
 		}	
 	}
 	

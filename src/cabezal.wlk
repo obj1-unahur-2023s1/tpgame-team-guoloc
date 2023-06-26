@@ -6,7 +6,7 @@ import gestores.*
 object cabezal {
 	//Selector de celdas para poner/sacar las plantas y realizar otras acciones
 	var property position = game.at(3, 3)
-	var property planta = ningunaPlanta //planta seleccionada para plantar
+	var property planta = administradorDeCabezal.objetoCabezal(0) //planta seleccionada para plantar
 	var property soles = 0 //cantidad de soles disponibles para gastar
 	var property image = planta.imagenCabezal()
 	

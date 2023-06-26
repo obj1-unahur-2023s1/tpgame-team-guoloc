@@ -13,6 +13,10 @@ object configuracion{
 		game.cellSize(64)
 	}
 	
+	method agregarTitulo(){
+		game.title("Plantas vs Zombies: Wollok edition")
+	}
+	
 	
 	method agregarVisuales(){
 		//Agregar los visuales iniciales al juego

@@ -10,7 +10,7 @@ object administradorDeNivel {
 	
 	method configurarInputs(){
 		//Configurar los inputs del administrador de nivel. 
-		keyboard.space().onPressDo{if(indiceNivelActual==0){self.cargarNivelPantallaJuego()}} //Ir de pantalla de inicio a pantalla de juego
+		keyboard.enter().onPressDo{if(indiceNivelActual==0){self.cargarNivelPantallaJuego()}} //Ir de pantalla de inicio a pantalla de juego
 	}
 	method cargarNivelPantallaInicio(){
 		//Cargar los visuals y fondo del juego

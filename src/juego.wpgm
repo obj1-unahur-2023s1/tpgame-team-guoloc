@@ -4,10 +4,11 @@ import administradorDeNivel.*
 import zombies.*
 
 
-program guolocVsZombies {
+program PlantasVsZombies {
 	
 
 	configuracion.configurarResolucionPantalla()
+	configuracion.agregarTitulo()
 	administradorDeNivel.configurarInputs()
 	administradorDeNivel.cargarNivelPantallaInicio()
 	game.start()
