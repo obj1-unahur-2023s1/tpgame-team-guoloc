@@ -1,24 +1,42 @@
-# Guoloc Vs Zombies
+# Plants vs Zombies (Wollok Edition)
 
 ## Equipo de desarrollo
 
 - Javier Asato
+- Pablo Israelsky
 - Vanina Olson
 - Franco Orellana
-- Pablo Israelsky
 - Ignacio Rzeszut
 
 ## Capturas
-
-(agregar)
+### Pantalla de inicio
+![inicio](screenshots/1.PNG)
+### Comienzo de la partida
+![inicio de partida](screenshots/2.PNG)
+![juego](screenshots/3.PNG)
+### Game Over
+![pantalla de game over](screenshots/4.PNG)
+### Partida De Ejemplo
+![ejemplo de partida](screenshots/5.PNG)
 
 ## Reglas de Juego / Instrucciones
 
-(Escribirlas)
+Matá a todos los zombies para ganar
+
+Si los zombies llegan a la casa del loco dave, perdés
+
+### Controles:
+
+Comenzar partida: Espacio
+
+Plantar/Desplantar: Espacio/Espacio con la pala seleccionada
+
+Mover Cabezal: flechas direccionales
+
+Seleccionar planta: Q/E
 
 
 ## Otros
 
-- Curso/Facultad
-- Versión de wollok
+- Comision mañana - Programación orientada a Objetos 1
 - Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
