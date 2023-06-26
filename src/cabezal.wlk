@@ -10,6 +10,7 @@ object cabezal {
 	var property soles = 0 //cantidad de soles disponibles para gastar
 	var property image = planta.imagenCabezal()
 	
+	
 	method esSol() = false
 	method esZombie() = false
 	method esPlanta() = false
@@ -20,7 +21,6 @@ object cabezal {
 		keyboard.space().onPressDo{planta.accionCabezal()}
 		keyboard.e().onPressDo{cabezalDeSeleccion.moverIzquierda()}
 		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
-		
 	}
 	
 	
@@ -51,7 +51,8 @@ object cabezal {
 	}
 	
 	method recolectar(sol){
-		sol.serRecolectado()		
+		indicadorSoles.aumentarSoles(25)
+		sol.destruir()	
 	}
 	
 	

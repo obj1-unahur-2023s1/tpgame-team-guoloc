@@ -10,7 +10,7 @@ class LogoPlanta {
 	method esSol() = false
 	method esPlanta() = false
 	method serDesplantado(){}
-	method esCabezal() = false
+	method recolectar(sol){}
 	
 }
 
@@ -46,7 +46,7 @@ object indicadorSoles{
 	method esSol() = false
 	method esPlanta() = false
 	method serDesplantado(){}
-	method esCabezal() = false
+
 }
 
 class HUDSoles{
@@ -54,7 +54,7 @@ class HUDSoles{
 	method esSol() = false
 	method esPlanta() = false
 	method serDesplantado(){}
-	method esCabezal() = false
+
 }
 
 object centenasCantidadSoles inherits HUDSoles{

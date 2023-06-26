@@ -18,7 +18,7 @@ class Zombie {
 	method esPlanta() = false
 	method serDesplantado(){}
 	method esCabezal() = false
-
+	method recolectar(sol){}
 	
 
 	
