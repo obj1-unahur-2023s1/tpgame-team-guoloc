@@ -21,9 +21,9 @@
 
 ## Reglas de Juego / Instrucciones
 
-Matá a todos los zombies para ganar
+Resistir las oleadas de zombies
 
-Si los zombies llegan a la casa del loco dave, perdés
+Si los zombies llegan a la casa del Loco Dave, perdés
 
 ### Controles:
 
