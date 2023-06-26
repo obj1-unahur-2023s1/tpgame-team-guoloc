@@ -26,19 +26,17 @@ object indicadorSoles{
 	}
 	
 	method aumentarSoles(cantidad){
-		if ((cantidadSoles+cantidad)>999)
-			cantidadSoles = 999
-		else
-			cantidadSoles+=cantidad
+		cantidadSoles = (cantidadSoles + cantidad).min(999)
 		self.refrescarNumeros()
 	}		
 	method sacarSoles(cantidad){
-		if ((cantidadSoles-cantidad)<0)
-			cantidadSoles = 0
-		else
-			cantidadSoles-=cantidad
+		cantidadSoles = (cantidadSoles - cantidad).max(0)
 		self.refrescarNumeros()
-	}	
+	}
+	method cantidadSoles(cantidad){
+		cantidadSoles = cantidad
+		self.refrescarNumeros()
+	}
 	method centenas() = (cantidadSoles/100).truncate(0) 	//Describe la cantidad de centeas de la cantidad de soles - Numero
 	method decenas() = ((cantidadSoles - self.centenas()*100)/10).truncate(0)		//Describe la cantidad de decenas de la cantidad de soles - Numero
 	method unidades() = (cantidadSoles - (self.centenas()*100) - (self.decenas()*10))		//Describe la cantidad de unidades de la cantidad de soles - Numero

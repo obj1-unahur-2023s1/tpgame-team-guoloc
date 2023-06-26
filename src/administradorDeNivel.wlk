@@ -32,6 +32,7 @@ object administradorDeNivel {
 		configuracion.agregarLogosPlantas()
 		indiceNivelActual = 1
 		spawnZombies.esperarYComenzarAtaque(3)
+		
 	}
 	
 	method cargarNivelPantallaGameOver(){
@@ -41,6 +42,7 @@ object administradorDeNivel {
 		game.addVisual(new LogoPrincipal(position=game.at(4,0), image="pantalla_gameOver.png"))
 		indiceNivelActual = 2
 		self.configurarInputs()
+		indicadorSoles.cantidadSoles(200)
 	}
 	
 	method cargarNivelPantallaVictoria(){
@@ -50,6 +52,7 @@ object administradorDeNivel {
 		game.addVisual(new LogoPrincipal(position=game.at(4,0), image="pantalla_victoria.png"))
 		indiceNivelActual = 3
 		self.configurarInputs()
+		indicadorSoles.cantidadSoles(200)
 	}
 		
 }
