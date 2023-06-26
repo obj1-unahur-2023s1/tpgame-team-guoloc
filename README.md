@@ -1,4 +1,4 @@
-# Plants vs Zombies (Wollok Edition)
+lo# Plants vs Zombies (Wollok Edition)
 
 ## Equipo de desarrollo
 
@@ -6,7 +6,7 @@
 - Pablo Israelsky
 - Vanina Olson
 - Franco Orellana
-- Ignacio Rzeszut
+- Hector Ignacio Rzeszut
 
 ## Capturas
 ### Pantalla de inicio
