@@ -2,6 +2,7 @@ import wollok.game.*
 import configuracion.*
 import cabezal.*
 import zombies.*
+import logoPlanta.*
 
 object administradorDeNivel {
 	
@@ -10,7 +11,7 @@ object administradorDeNivel {
 	
 	method configurarInputs(){
 		//Configurar los inputs del administrador de nivel. 
-		keyboard.enter().onPressDo{if(indiceNivelActual==0){self.cargarNivelPantallaJuego()}} //Ir de pantalla de inicio a pantalla de juego
+		keyboard.enter().onPressDo{if(indiceNivelActual!=1){self.cargarNivelPantallaJuego()}} //Ir de pantalla de inicio a pantalla de juego
 	}
 	method cargarNivelPantallaInicio(){
 		//Cargar los visuals y fondo del juego
@@ -23,8 +24,8 @@ object administradorDeNivel {
 	
 	method cargarNivelPantallaJuego(){
 		//Cargar los visuals de la pantalla de juego (donde plantamos)
+		game.clear()
 		game.schedule(100, {administradorMusica.iniciarMusicaJuego()})
-		game.removeVisual(logoPrincipal)
 		game.addVisualCharacter(cabezal)
 		game.addVisual(cabezalDeSeleccion)
 		configuracion.agregarTareas()
@@ -39,6 +40,7 @@ object administradorDeNivel {
 		administradorMusica.pararMusica()
 		game.addVisual(new LogoPrincipal(position=game.at(4,0), image="pantalla_gameOver.png"))
 		indiceNivelActual = 2
+		self.configurarInputs()
 	}
 	
 	method cargarNivelPantallaVictoria(){
@@ -47,7 +49,7 @@ object administradorDeNivel {
 		administradorMusica.pararMusica()
 		game.addVisual(new LogoPrincipal(position=game.at(4,0), image="pantalla_victoria.png"))
 		indiceNivelActual = 3
-
+		self.configurarInputs()
 	}
 		
 }
