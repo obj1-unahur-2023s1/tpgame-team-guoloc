@@ -1,4 +1,4 @@
-lo# Plants vs Zombies (Wollok Edition)
+# Plants vs Zombies (Wollok Edition)
 
 ## Equipo de desarrollo
 
@@ -27,16 +27,16 @@ Si los zombies llegan a la casa del loco dave, perdés
 
 ### Controles:
 
-Comenzar partida: Espacio
+Comenzar partida: Enter
 
-Plantar/Desplantar: Espacio/Espacio con la pala seleccionada
+Plantar/Desplantar: Espacio / Espacio con la pala seleccionada
 
-Mover Cabezal: flechas direccionales
+Mover Cabezal: Flechas direccionales
 
-Seleccionar planta: Q/E
+Seleccionar planta: Q / E
 
 
 ## Otros
 
-- Comision mañana - Programación orientada a Objetos 1
-- Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
+- Comision mañana - Programación Orientada A Objetos 1
+- Una vez terminado, no tenemos problemas en que el repositorio sea público
