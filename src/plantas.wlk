@@ -280,11 +280,15 @@ class ProyectilGuisante{
 	method image() = imagen
 	
 	method moverDerecha(){
-		position = game.at(position.x()+1,position.y())
 		if ((position.x() >= posicionInicial.x() +9) || position.x() >= 18 ){
 			self.destruir()
 		}
-			
+		else
+		{
+			position = game.at(position.x()+1,position.y())
+		}
+		
+		
 	}
 	
 	method recolectar(sol){}

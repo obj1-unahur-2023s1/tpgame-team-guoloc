@@ -18,10 +18,9 @@ class GestorAnimacion{
 }
 
 object gestorIds{
-	var id = 0
+	
 	method nuevoId(){
-		id += 1
-		return id
+		return 1.randomUpTo(1000000).truncate(0)
 	}
 	
 }

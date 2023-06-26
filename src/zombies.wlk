@@ -6,17 +6,18 @@ import administradorDeNivel.*
 class Zombie {
 	var property id = gestorIds.nuevoId()
 	var property salud = 25
-	var property positionX = 20
-	var property positionY = 1.randomUpTo(5).truncate(0)
+	var property positionX = 19
+	var property positionY = 1.randomUpTo(6).truncate(0)
 	var property position = game.at(positionX, positionY)
 	var moving = true
 
-	
+
+	method continuar(){}
 	method text() = salud.toString()
 	method esZombie() = true
 	method esSol() = false
 	method esPlanta() = false
-	method serDesplantado(){}
+	method serDesplantado(){self.continuar()}
 	method esCabezal() = false
 	method recolectar(sol){}
 	
@@ -65,7 +66,7 @@ class Zombie {
 class ZombieNormal inherits Zombie {
 	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_f")
 	
-	method continuar(){
+	override method continuar(){
 			moving = true
 			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_f")
 	}
@@ -88,7 +89,7 @@ class ZombieConoDeTransito inherits Zombie(salud = 40){
 	
 	method image() = imagenActual.image()
 	
-	method continuar(){
+	override method continuar(){
 			moving = true
 			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_f")
 	}
@@ -108,7 +109,7 @@ class ZombieBucketHead inherits Zombie(salud = 50) {
 	
 	method image() = imagenActual.image()
 	
-	method continuar(){
+	override method continuar(){
 			moving = true
 			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
 	}
