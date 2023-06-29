@@ -3,23 +3,6 @@ import cabezal.*
 import logoPlanta.*
 import gestores.*
 
-object ningunaPlanta{
-	
-	const property id = 0
-	const property costoSoles = 0
-	method nuevaPlanta(){}
-	method esPlanta() = false
-	method imagenCabezal() = "cabezal.png"
-	
-	//metodos vacios
-	method id(a){}
-
-	method accionCabezal(){}
-	method accionar(a){}
-	method esZombie() = false
-	method esSol() = false
-}
-
 object pala{
 	const property id = 0
 	const property costoSoles = 0
@@ -44,6 +27,15 @@ class Planta{
 	var property id =gestorIds.nuevoId()
 	var property position
 	var property salud = 50
+	var property nombrePlanta
+	var property costoSoles
+	
+	var property imagenActual = new GestorAnimacion(imagenBase=self.pathImage(), idanim = id)
+	method image() = imagenActual.image()
+	method imagenCabezal() = "imgPlantas/cabezal_"+nombrePlanta+".png"
+	
+	method pathImage() = "imgPlantas/"+nombrePlanta+"_f"
+	
 	method serDesplantado(){
 		game.removeVisual(self)
 	}
@@ -75,13 +67,11 @@ class Planta{
 	
 }
 
-class Girasol inherits Planta{
-	const property costoSoles = 50
-	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/girasol_f", idanim = id)
-	var property solesGenerados = 0
-	method image() = imagenActual.image()
-	method nuevaPlanta(posicion) = new Girasol(position = posicion)
+class Girasol inherits Planta(costoSoles = 50, nombrePlanta = "girasol"){
 	
+	var property solesGenerados = 0
+	
+	method nuevaPlanta(posicion) = new Girasol(position = posicion)
 	
 	override method accionar(posicion){
 		game.onTick(10000, "generarSoles" + id.toString(), {self.generarSoles()})
@@ -100,8 +90,6 @@ class Girasol inherits Planta{
 	method puedeGenerarSol() = self.solesEnLaPosicion() == 0
 
 	method solesEnLaPosicion() = position.allElements().filter({o => o.esSol()}).size()
-		
-	method imagenCabezal() = "imgPlantas/cabezal_girasol.png"
 	
 	override method serDesplantado(){
 		super()
@@ -113,13 +101,9 @@ class Girasol inherits Planta{
 
 
 
-class PapaMina inherits Planta{
-	const property costoSoles = 200
+class PapaMina inherits Planta(costoSoles = 200, nombrePlanta = "papa"){
 	const property damage = 9999
-	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/papa_f", idanim = id)
-	method image() = imagenActual.image()
 	method nuevaPlanta(posicion) = new PapaMina(position = posicion)
-	method imagenCabezal() = "imgPlantas/cabezal_papa.png"
 	
 	override method accionar(posicion){
 		self.modoExplosion()
@@ -139,12 +123,9 @@ class PapaMina inherits Planta{
 	method destruir(){}
 }
 
-class Guisante inherits Planta{
-	var property costoSoles = 100
-	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/guisante_f", idanim = id)
-	method image() = imagenActual.image()
+class Guisante inherits Planta(costoSoles = 100, nombrePlanta = "guisante"){
+
 	method nuevaPlanta(posicion) = new Guisante(position = posicion)
-	method imagenCabezal() = "imgPlantas/cabezal_guisante.png"
 	
 	override method serDesplantado(){
 		super()
@@ -163,19 +144,9 @@ class Guisante inherits Planta{
 	}
 }
 
-class GuisanteDoble inherits Guisante{
-	method initialize(){
-		costoSoles = 200
-		imagenActual = new GestorAnimacion(imagenBase="imgPlantas/guisanteDoble_f", idanim = id)
-	} 
+class GuisanteDoble inherits Guisante(costoSoles = 200, nombrePlanta = "guisanteDoble"){
 	
-	override method image() = imagenActual.image()
 	override method nuevaPlanta(posicion) = new GuisanteDoble(position = posicion)
-	override method imagenCabezal() = "imgPlantas/cabezal_guisanteDoble.png"
-	
-	override method accionar(posicion){
-		game.onTick(2500,"disparar" +id.toString() ,{self.dispararGuisante(posicion)})
-	}
 	
 	override method dispararGuisante(posicion){
 		const guisante = new ProyectilGuisanteDoble(position = posicion, posicionInicial = posicion, idGuisante = gestorIds.nuevoId())
@@ -184,21 +155,17 @@ class GuisanteDoble inherits Guisante{
 	}
 }
 
-class Nuez inherits Planta(salud = 100){
-	const property costoSoles = 50
-	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/nuez_f", idanim = id)
-	method image() = imagenActual.image()
+class Nuez inherits Planta(costoSoles = 50, nombrePlanta = "nuez", salud=100){
+	
 	method nuevaPlanta(posicion) = new Nuez(position = posicion)
-	method imagenCabezal() = "imgPlantas/cabezal_nuez.png"
+
 }
 
-class Espinas inherits Planta{
-	const property costoSoles = 100
+class Espinas inherits Planta(costoSoles = 100, nombrePlanta = "espinas"){
+	
 	const property damage = 4
-	var property imagenActual = new GestorAnimacion(imagenBase="imgPlantas/espinas_f", idanim = id)
-	method image() = imagenActual.image()
+	
 	method nuevaPlanta(posicion) = new Espinas(position = posicion)
-	method imagenCabezal() = "imgPlantas/cabezal_espinas.png"
 	
 	override method accionar(posicion){
 		game.onTick(200, "ataqueEspinas" + id.toString(), {self.atacar()})
@@ -226,8 +193,6 @@ class Sol {
 	var property position
 	var property idSol = gestorIds.nuevoId()
 	
-	
-	
 
 	method image() = imagenActual.image()
 	
@@ -253,7 +218,7 @@ class Sol {
 
 
 
-class ProyectilGuisanteDoble inherits ProyectilGuisante{
+class ProyectilGuisanteDoble inherits ProyectilGuisante(damage=20, imagen="imgPlantas/guisanteDoble_proyectil.png"){
 	method initialize(){
 		damage = 20
 		imagen = "imgPlantas/guisanteDoble_proyectil.png"

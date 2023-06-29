@@ -10,10 +10,17 @@ class Zombie {
 	var property positionY = 1.randomUpTo(7).truncate(0)
 	var property position = game.at(positionX, positionY)
 	var moving = true
+	var property nombreZombie
+	var property imagenActual = new GestorAnimacion(imagenBase = self.imagenBase())
+	
+	method imagenBase() = "zombies/"+nombreZombie+"_f"
+	method imagenComiendo() = "zombies/"+nombreZombie+"_comiendo_f"
+	method image() = imagenActual.image()
+	method refrescarImagen(){imagenActual = new GestorAnimacion(imagenBase = self.imagenBase())}
 
-
-	method continuar(){}
 	method text() = salud.toString()
+	method textColor() = "FFFFFF"
+	method textFont() = "system"
 	method esZombie() = true
 	method esSol() = false
 	method esPlanta() = false
@@ -25,16 +32,11 @@ class Zombie {
 	
 	method moverse() { 
 		if (moving) {
-			self.position(position.left(1))
-			if(self.position().x() < 0)
-				administradorDeNivel.cargarNivelPantallaGameOver()
+			self.avanzarALaIzquierda(1)
+			self.perderSiLlegoAlFinal()
 		}
 	}
 	
-	
-	
-	method parar(){
-	}
 	
 	method atacar(){
 			self.plantasAtacables().forEach({p => p.recibirDanio(10)})	
@@ -56,6 +58,31 @@ class Zombie {
 		}
 	}
 	
+	method continuar(){
+			moving = true
+			imagenActual = new GestorAnimacion(imagenBase = self.imagenBase())
+	}
+	
+	method parar(){
+		if(self.colisionaConPlantaAtacable() && moving){
+			moving = false
+			imagenActual = new GestorAnimacion(imagenBase = self.imagenComiendo())
+		}	
+	}
+	
+	
+	method perderSiLlegoAlFinal(){
+		if(self.position().x() < 0)
+			administradorDeNivel.cargarNivelPantallaGameOver()
+	}
+	
+	method avanzarALaIzquierda(cantidad){
+		self.position(position.left(cantidad))
+	} 
+	
+	method puedeSubir() = self.position().y() < 6
+	method puedeBajar() = self.position().y() > 1
+	
 	method plantasEnPosicion() = game.colliders(self).filter({p => p.esPlanta()})
 	method plantasAtacables() = self.plantasEnPosicion().filter({p => p.detieneMovimiento()})
 	method colisionaConPlantaAtacable() = self.plantasAtacables().size() > 0
@@ -63,68 +90,39 @@ class Zombie {
 	
 }
 
-class ZombieNormal inherits Zombie {
-	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_f")
-	
-	override method continuar(){
-			moving = true
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_f")
-	}
-	
-	
-	override method parar(){
-		if(self.colisionaConPlantaAtacable() && moving){
-			moving = false
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombieSimple_comiendo_f")
-		}	
-	}
-	
-	method image() = imagenActual.image()
-	
+class ZombieNormal inherits Zombie(nombreZombie = "zombieSimple") {
 	method nuevoZombie() = new ZombieNormal()
+	
 }
 
-class ZombieConoDeTransito inherits Zombie(salud = 40){
-	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_f")
-	
-	method image() = imagenActual.image()
-	
-	override method continuar(){
-			moving = true
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_f")
-	}
-	
-	override method parar(){
-		if(self.colisionaConPlantaAtacable() && moving){
-			moving = false
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_ch_comiendo_f")
-		}	
-	}
-	
+class ZombieConoDeTransito inherits Zombie(salud = 40, nombreZombie = "zombie_ch"){
 	method nuevoZombie() = new ZombieConoDeTransito()
+	
+	//10% de probabilidad de bajar una casilla al avanzar 
+	override method avanzarALaIzquierda(cantidad){
+		super(cantidad)
+		const n = 1.randomUpTo(11).truncate(0)
+		if ((n==5) and self.puedeBajar())
+			self.position(position.down(cantidad))
+	}
+	
 }
 
-class ZombieBucketHead inherits Zombie(salud = 50) {
-	var property imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
-	
-	method image() = imagenActual.image()
-	
-	override method continuar(){
-			moving = true
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_f")
-	}
-	
-	override method parar(){
-		if(self.colisionaConPlantaAtacable() && moving){
-			moving = false
-			imagenActual = new GestorAnimacion(imagenBase = "zombies/zombie_bh_comiendo_f")
-		}	
-	}
-	
+class ZombieBucketHead inherits Zombie(salud = 50,  nombreZombie = "zombie_bh") {
+
 	method nuevoZombie() = new ZombieBucketHead()
+	
+	//5% de probabilidad de subir una casilla al avanzar 
+	override method avanzarALaIzquierda(cantidad){
+		super(cantidad)
+		const n = 1.randomUpTo(21).truncate(0)
+		if ((n==5) and self.puedeSubir())
+			self.position(position.up(cantidad))
+	}
 }
 
-object configuracionZombie inherits Zombie {
+object configuracionZombie{
+	
 	const zombie = new ZombieNormal()
 	
 	method spawnearZombie() {

@@ -17,12 +17,10 @@ class LogoPlanta {
 
 object indicadorSoles{
 	var property image = "otros/logo_sol.png"
-	var property cantidadSoles = 200
+	var property cantidadSoles = 900
 	var property position = game.at(0,7)
 	method refrescarNumeros(){
-		centenasCantidadSoles.refrescarNumero()
-		decenasCantidadSoles.refrescarNumero()
-		unidadesCantidadSoles.refrescarNumero()
+		cifrasSoles.refrescarNumeros()
 	}
 	
 	method aumentarSoles(cantidad){
@@ -53,6 +51,14 @@ class HUDSoles{
 	method esPlanta() = false
 	method serDesplantado(){}
 
+}
+
+object cifrasSoles{
+	method refrescarNumeros(){
+		centenasCantidadSoles.refrescarNumero()
+		decenasCantidadSoles.refrescarNumero()
+		unidadesCantidadSoles.refrescarNumero()
+	}
 }
 
 object centenasCantidadSoles inherits HUDSoles{

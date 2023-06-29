@@ -34,7 +34,7 @@ object cabezal {
 		//Plantar una planta si se puede, sino no hace nada
 		if(self.sePuedePlantarEn(self.position()) and self.tieneSolesSuficientes()){
 			planta.position(self.position())
-			game.addVisualIn(planta,self.position())
+			game.addVisual(planta)
 			self.inicializarPlanta()
 			indicadorSoles.sacarSoles(planta.costoSoles())
 			self.cambiarPlanta(planta.nuevaPlanta(self.position()))
@@ -57,11 +57,11 @@ object cabezal {
 	
 	
 	method serDesplantado(){}
-	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) and planta!=ningunaPlanta
+	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) 
 	method plantasEnElCollider()= game.colliders(self).filter({o => o.esPlanta()}).size()
 	method laCeldaEstaVacia() = self.plantasEnElCollider() == 0
 	method laPosicionEsValida(posicion) = posicion.y()!=7 and posicion.y()!=0  and posicion.x() > 0 and posicion.x() < 14
-	method laPlantaSeleccionadaEsValida() = planta!=pala and planta!=ningunaPlanta
+	method laPlantaSeleccionadaEsValida() = planta!=pala
 	method tieneSolesSuficientes() = indicadorSoles.cantidadSoles()>=planta.costoSoles()
 	
 }
