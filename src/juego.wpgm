@@ -6,7 +6,6 @@ import zombies.*
 
 program PlantasVsZombies {
 	
-
 	configuracion.configurarResolucionPantalla()
 	configuracion.agregarTitulo()
 	administradorDeNivel.configurarInputs()

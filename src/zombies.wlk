@@ -11,24 +11,23 @@ class Zombie {
 	var property position = game.at(positionX, positionY)
 	var moving = true
 	var property nombreZombie
-	var property imagenActual = new GestorAnimacion(imagenBase = self.imagenBase())
+	var property gestorAnimacion = new GestorAnimacion(imagenBase = self.imagenBase(), idanim = id)
+	var property damage = 5
 	
 	method imagenBase() = "zombies/"+nombreZombie+"_f"
 	method imagenComiendo() = "zombies/"+nombreZombie+"_comiendo_f"
-	method image() = imagenActual.image()
-	method refrescarImagen(){imagenActual = new GestorAnimacion(imagenBase = self.imagenBase())}
-
+	method image() = gestorAnimacion.image()
+	method refrescarImagen(){gestorAnimacion = new GestorAnimacion(imagenBase = self.imagenBase(), idanim = id)}
 	method text() = salud.toString()
 	method textColor() = "FFFFFF"
 	method textFont() = "system"
-	method esZombie() = true
-	method esSol() = false
-	method esPlanta() = false
+	method recibirAtaque(algo){}
 	method serDesplantado(){self.continuar()}
-	method esCabezal() = false
 	method recolectar(sol){}
 	
-
+	method atacar(){
+		game.colliders(self).forEach({p => p.recibirAtaque(self)})
+	}
 	
 	method moverse() { 
 		if (moving) {
@@ -38,14 +37,9 @@ class Zombie {
 	}
 	
 	
-	method atacar(){
-			self.plantasAtacables().forEach({p => p.recibirDanio(10)})	
-	}
-	
 	method serImpactado(algo) { 
-		salud = (salud - algo.damage()).max(0)
+		self.recibirDanio(algo.damage())
 		self.muerte()
-		algo.destruir()
 	}
 	
 	
@@ -54,19 +48,22 @@ class Zombie {
 		if (salud == 0) {
 			game.removeTickEvent("moverZombie" + self.id().toString())
 			game.removeTickEvent("zombieAtaque" + self.id().toString() )
+			gestorAnimacion.eliminarTick()
 			game.removeVisual(self)
 		}
 	}
 	
 	method continuar(){
 			moving = true
-			imagenActual = new GestorAnimacion(imagenBase = self.imagenBase())
+			gestorAnimacion.eliminarTick()
+			gestorAnimacion = new GestorAnimacion(imagenBase = self.imagenBase(), idanim = id)
 	}
 	
 	method parar(){
-		if(self.colisionaConPlantaAtacable() && moving){
+		if(moving){
 			moving = false
-			imagenActual = new GestorAnimacion(imagenBase = self.imagenComiendo())
+			gestorAnimacion.eliminarTick()
+			gestorAnimacion = new GestorAnimacion(imagenBase = self.imagenComiendo(), idanim = id)
 		}	
 	}
 	
@@ -83,9 +80,10 @@ class Zombie {
 	method puedeSubir() = self.position().y() < 6
 	method puedeBajar() = self.position().y() > 1
 	
-	method plantasEnPosicion() = game.colliders(self).filter({p => p.esPlanta()})
-	method plantasAtacables() = self.plantasEnPosicion().filter({p => p.detieneMovimiento()})
-	method colisionaConPlantaAtacable() = self.plantasAtacables().size() > 0
+
+	method recibirDanio(danio) {
+		salud = (salud - danio).max(0)
+	}
 	
 	
 }
@@ -129,7 +127,6 @@ object configuracionZombie{
 			game.addVisual(zombie)
 			game.onTick(800, "moverZombie" + zombie.id().toString(), {zombie.moverse()})
 			game.onTick(2000, "zombieAtaque" + zombie.id().toString(), {zombie.atacar()})
-			game.whenCollideDo(zombie, {p => zombie.parar()})
 	}
 }
 
@@ -167,7 +164,6 @@ object spawnZombies{
 		game.addVisual(zombie)
 		game.onTick(800, "moverZombie" + zombie.id().toString(), {zombie.moverse()})
 		game.onTick(2000, "zombieAtaque" + zombie.id().toString(), {zombie.atacar()})
-		game.whenCollideDo(zombie, {p => zombie.parar()})
 	}
 	
 	

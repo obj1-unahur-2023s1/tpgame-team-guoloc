@@ -6,9 +6,7 @@ class LogoPlanta {
 	const nombrePlanta
 	var property image = "logosPlantas/logo_"+nombrePlanta+"_0.png"
 	var property position = game.at(x,7)
-	method esZombie() = false
-	method esSol() = false
-	method esPlanta() = false
+
 	method serDesplantado(){}
 	method recolectar(sol){}
 	
@@ -38,17 +36,12 @@ object indicadorSoles{
 	method centenas() = (cantidadSoles/100).truncate(0) 	//Describe la cantidad de centeas de la cantidad de soles - Numero
 	method decenas() = ((cantidadSoles - self.centenas()*100)/10).truncate(0)		//Describe la cantidad de decenas de la cantidad de soles - Numero
 	method unidades() = (cantidadSoles - (self.centenas()*100) - (self.decenas()*10))		//Describe la cantidad de unidades de la cantidad de soles - Numero
-	method esZombie() = false
-	method esSol() = false
-	method esPlanta() = false
 	method serDesplantado(){}
 
 }
 
 class HUDSoles{
-	method esZombie() = false
-	method esSol() = false
-	method esPlanta() = false
+
 	method serDesplantado(){}
 
 }

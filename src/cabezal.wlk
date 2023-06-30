@@ -5,17 +5,14 @@ import gestores.*
 
 object cabezal {
 	//Selector de celdas para poner/sacar las plantas y realizar otras acciones
+	var property id = 0
 	var property position = game.at(3, 3)
 	var property planta = administradorDeCabezal.objetoCabezal(0) //planta seleccionada para plantar
 	var property soles = 0 //cantidad de soles disponibles para gastar
 	var property image = planta.imagenCabezal()
-	
-	
-	method esSol() = false
-	method esZombie() = false
-	method esPlanta() = false
 	method serImpactado(algo){}
-	method esCabezal() = true
+	method recibirDanio(danio){}
+	method recibirAtaque(algo){}
 	method configurarTareas(){
 		//Añadir los eventos de teclado
 		keyboard.space().onPressDo{planta.accionCabezal()}
@@ -23,7 +20,7 @@ object cabezal {
 		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
 	}
 	
-	
+	method parar(){}
 	method cambiarPlanta(nuevaPlanta){
 		//Cambiar la planta seleccionada para plantar
 		planta = nuevaPlanta
@@ -52,16 +49,14 @@ object cabezal {
 	
 	method recolectar(sol){
 		indicadorSoles.aumentarSoles(25)
-		sol.destruir()	
+		sol.destruir()
 	}
 	
 	
 	method serDesplantado(){}
 	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) 
-	method plantasEnElCollider()= game.colliders(self).filter({o => o.esPlanta()}).size()
-	method laCeldaEstaVacia() = self.plantasEnElCollider() == 0
+	method laCeldaEstaVacia() = game.colliders(self).size() == 0
 	method laPosicionEsValida(posicion) = posicion.y()!=7 and posicion.y()!=0  and posicion.x() > 0 and posicion.x() < 14
-	method laPlantaSeleccionadaEsValida() = planta!=pala
 	method tieneSolesSuficientes() = indicadorSoles.cantidadSoles()>=planta.costoSoles()
 	
 }
@@ -96,13 +91,8 @@ object cabezalDeSeleccion{
 		
 		self.cambiarObjetoCabezal()
 	}
-	
-	method esZombie() = false
-	method esSol() = false
-	method esPlanta() = false
 	method serDesplantado(){}
-	method esCabezal() = false
-	
+	method parar(){}
 }
 
 object administradorDeCabezal{
