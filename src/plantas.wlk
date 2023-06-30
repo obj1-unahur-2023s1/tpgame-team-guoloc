@@ -203,10 +203,10 @@ class Sol {
 
 
 class ProyectilGuisanteDoble inherits ProyectilGuisante{
-	method initialize(){
+	override method initialize(){
+		super()
 		damage = 20
 		imagen = "imgPlantas/guisanteDoble_proyectil.png"
-		game.onTick(250,"movimientoGuisante"+ idGuisante.toString(),{self.moverDerecha()})
 	}
 	
 	
