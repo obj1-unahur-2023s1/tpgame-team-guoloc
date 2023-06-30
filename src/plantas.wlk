@@ -68,6 +68,7 @@ class Girasol inherits Planta(costoSoles = 50, nombrePlanta = "girasol"){
 	method nuevaPlanta(posicion) = new Girasol(position = posicion)
 	
 	override method accionar(posicion){
+		super(posicion)
 		game.onTick(10000, "generarSoles" + id.toString(), {self.generarSoles()})
 	}
 	
@@ -95,6 +96,7 @@ class PapaMina inherits Planta(costoSoles = 200, nombrePlanta = "papa"){
 	method nuevaPlanta(posicion) = new PapaMina(position = posicion)
 	
 	override method accionar(posicion){
+		super(posicion)
 		self.modoExplosion()
 	}
 	
@@ -135,7 +137,6 @@ class GuisanteDoble inherits Guisante(costoSoles = 200, nombrePlanta = "guisante
 	override method nuevaPlanta(posicion) = new GuisanteDoble(position = posicion)
 	
 	override method dispararGuisante(posicion){
-		super(posicion)
 		const guisante = new ProyectilGuisanteDoble(position = posicion, posicionInicial = posicion, idGuisante = gestorIds.nuevoId())
 		game.addVisual(guisante)
 		game.onCollideDo(guisante,{objeto => objeto.serImpactado(guisante)})
@@ -155,7 +156,7 @@ class Espinas inherits Planta(costoSoles = 100, nombrePlanta = "espinas"){
 	method nuevaPlanta(posicion) = new Espinas(position = posicion)
 	
 	override method accionar(posicion){
-		game.onCollideDo(self, {p => p.recibirDanio(damage)})
+		game.onCollideDo(self, {p => p.serImpactado(self)})
 	}
 	
 	
@@ -180,7 +181,7 @@ class Sol {
 	
 
 	method image() = gestorAnimacion.image()
-	
+	method continuar(){}
 	method accionar(){
 		game.whenCollideDo(self, { p => p.recolectar(self)})
 	}

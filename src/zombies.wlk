@@ -45,7 +45,7 @@ class Zombie {
 	
 
 	method muerte() {
-		if (salud == 0) {
+		if (salud <= 0) {
 			game.removeTickEvent("moverZombie" + self.id().toString())
 			game.removeTickEvent("zombieAtaque" + self.id().toString() )
 			gestorAnimacion.eliminarTick()
