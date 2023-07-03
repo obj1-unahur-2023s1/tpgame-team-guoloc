@@ -170,6 +170,7 @@ class Espinas inherits Planta(costoSoles = 100, nombrePlanta = "espinas"){
 		super()
 		game.removeTickEvent("ataqueEspinas" + id.toString())
 	}
+	override method recibirAtaque(zombie){}
 	
 	method destruir(){}
 }
