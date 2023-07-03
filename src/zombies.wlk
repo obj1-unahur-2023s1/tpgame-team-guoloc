@@ -7,7 +7,7 @@ class Zombie {
 	var property id = gestorIds.nuevoId()
 	var property salud = 25
 	var property positionX = 19
-	var property positionY = 6
+	var property positionY = 1.randomUpTo(7).truncate(0)
 	var property position = game.at(positionX, positionY)
 	var moving = true
 	var property nombreZombie
