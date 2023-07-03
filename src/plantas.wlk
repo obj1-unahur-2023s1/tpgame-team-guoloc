@@ -249,8 +249,11 @@ class ProyectilGuisante{
 	method recolectar(sol){}
 	method serDesplantado(){}	
 	method delete(){
-		game.removeVisual(self)
-		game.removeTickEvent("movimientoGuisante" + idGuisante)
+		if(game.hasVisual(self)){
+			game.removeVisual(self)
+			game.removeTickEvent("movimientoGuisante" + idGuisante)
+		}
+		
 		}
 	
 }
