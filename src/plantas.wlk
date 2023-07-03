@@ -41,6 +41,7 @@ class Planta{
 		cabezal.plantar()
 	}
 	
+	method explotar(algo){}
 	method recolectar(sol){}
 
 
@@ -55,7 +56,7 @@ class Planta{
 		}
 	}
 	method morir(){
-		game.colliders(self).continuar()
+		game.colliders(self).forEach({o => o.continuar()})
 		self.serDesplantado()
 		
 	}
@@ -101,11 +102,12 @@ class PapaMina inherits Planta(costoSoles = 200, nombrePlanta = "papa"){
 	}
 	
 	method modoExplosion(){
-		game.onCollideDo(self, {z => z.explotarPapaMina(self)})
+		game.onCollideDo(self, {z => z.explotar(self)})
 	}
 	
 	method explotar(){
-		
+		game.colliders(self).forEach({o => o.recibirDanio(damage)})
+		self.serDesplantado()
 	}
 	
 	method destruir(){}
@@ -156,10 +158,12 @@ class Espinas inherits Planta(costoSoles = 100, nombrePlanta = "espinas"){
 	method nuevaPlanta(posicion) = new Espinas(position = posicion)
 	
 	override method accionar(posicion){
-		game.onCollideDo(self, {p => p.serImpactado(self)})
+		game.onTick(200,"ataqueEspinas" +id.toString() ,{self.atacar()})
 	}
 	
-	
+	method atacar(){
+		game.colliders(self).forEach({o => o.recibirDanio(damage)})
+	}
 	
 	
 	override method serDesplantado(){
@@ -187,7 +191,7 @@ class Sol {
 	}
 	
 	method recolectar(sol){}
-	
+		
 	method recibirAtaque(a){}
 	method parar(){}
 	method serDesplantado(){}

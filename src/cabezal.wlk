@@ -20,6 +20,7 @@ object cabezal {
 		keyboard.q().onPressDo{cabezalDeSeleccion.moverDerecha()}
 	}
 	
+	method continuar(){}
 	method parar(){}
 	method cambiarPlanta(nuevaPlanta){
 		//Cambiar la planta seleccionada para plantar
@@ -52,7 +53,7 @@ object cabezal {
 		sol.destruir()
 	}
 	
-	
+	method explotar(algo){}
 	method serDesplantado(){}
 	method sePuedePlantarEn(posicion) = self.laCeldaEstaVacia() and self.laPosicionEsValida(posicion) 
 	method laCeldaEstaVacia() = game.colliders(self).size() == 0

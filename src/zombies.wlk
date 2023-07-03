@@ -7,7 +7,7 @@ class Zombie {
 	var property id = gestorIds.nuevoId()
 	var property salud = 25
 	var property positionX = 19
-	var property positionY = 1.randomUpTo(7).truncate(0)
+	var property positionY = 6
 	var property position = game.at(positionX, positionY)
 	var moving = true
 	var property nombreZombie
@@ -20,7 +20,6 @@ class Zombie {
 	method refrescarImagen(){gestorAnimacion = new GestorAnimacion(imagenBase = self.imagenBase(), idanim = id)}
 	method text() = salud.toString()
 	method textColor() = "FFFFFF"
-	method textFont() = "system"
 	method recibirAtaque(algo){}
 	method serDesplantado(){self.continuar()}
 	method recolectar(sol){}
@@ -39,7 +38,7 @@ class Zombie {
 	
 	method serImpactado(algo) { 
 		self.recibirDanio(algo.damage())
-		self.muerte()
+		algo.delete()
 	}
 	
 	
@@ -83,9 +82,12 @@ class Zombie {
 
 	method recibirDanio(danio) {
 		salud = (salud - danio).max(0)
+		self.muerte()
 	}
 	
-	
+	method explotar(algo){
+		algo.explotar()
+	}
 }
 
 class ZombieNormal inherits Zombie(nombreZombie = "zombieSimple") {
