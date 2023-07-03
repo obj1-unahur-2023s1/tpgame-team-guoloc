@@ -188,7 +188,7 @@ class Sol {
 	method image() = gestorAnimacion.image()
 	method continuar(){}
 	method accionar(){
-		game.whenCollideDo(self, { p => p.recolectar(self)})
+		game.onCollideDo(self, { p => p.recolectar(self)})
 	}
 	
 	method recolectar(sol){}
