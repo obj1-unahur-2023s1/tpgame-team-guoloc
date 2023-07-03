@@ -15,7 +15,7 @@ class LogoPlanta {
 
 object indicadorSoles{
 	var property image = "otros/logo_sol.png"
-	var property cantidadSoles = 900
+	var property cantidadSoles = 200
 	var property position = game.at(0,7)
 	method refrescarNumeros(){
 		cifrasSoles.refrescarNumeros()
