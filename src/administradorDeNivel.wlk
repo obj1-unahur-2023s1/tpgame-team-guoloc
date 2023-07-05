@@ -43,6 +43,7 @@ object administradorDeNivel {
 		indiceNivelActual = 2
 		self.configurarInputs()
 		indicadorSoles.cantidadSoles(200)
+		spawnZombies.reiniciarZombies()
 	}
 	
 	method cargarNivelPantallaVictoria(){
@@ -53,6 +54,7 @@ object administradorDeNivel {
 		indiceNivelActual = 3
 		self.configurarInputs()
 		indicadorSoles.cantidadSoles(200)
+		spawnZombies.reiniciarZombies()
 	}
 		
 }

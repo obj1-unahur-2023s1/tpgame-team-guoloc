@@ -146,6 +146,12 @@ object spawnZombies{
 		(1..cantZombies).forEach{x => listaZombies.add(zombiesPosibles.anyOne().nuevoZombie())}
 	}
 	
+	method reiniciarZombies(){
+		listaZombies.clear()
+		segsEntreZombies = 10
+	}
+	
+	
 	method iniciarSpawn(){
 		self.generarListaZombiesRandom()
 		game.onTick(segsEntreZombies*1000 , "crearZombie", {self.crearZombie()})
