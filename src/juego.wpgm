@@ -1,8 +1,15 @@
 import wollok.game.*
-import pepita.*
+import configuracion.*
+import administradorDeNivel.*
+import zombies.*
 
-program juego {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+
+program PlantasVsZombies {
+	
+	configuracion.configurarResolucionPantalla()
+	configuracion.agregarTitulo()
+	administradorDeNivel.configurarInputs()
+	administradorDeNivel.cargarNivelPantallaInicio()
 	game.start()
+	
 }
